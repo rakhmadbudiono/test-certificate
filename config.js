@@ -1,0 +1,3 @@
+module.exports = {
+  REGISTRY_CONTRACT: "0x339cacA526607c8e0d7292c52494398D90003197",
+};
