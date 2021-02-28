@@ -15,11 +15,6 @@ contract TesterRegistry {
         _;
     }
 
-    modifier onlyTester {
-        require(isTester[msg.sender], "Msg.sender must be an approved tester.");
-        _;
-    }
-
     function register(address tester) public notTester {
         isTester[tester] = true;
     }

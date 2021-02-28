@@ -15,6 +15,7 @@ contract TestCertificate {
     }
 
     mapping (string=>Certificate) certificates;
+    mapping (address=>string[]) testerCertificates;
     address public registryContract;
 
     constructor (address registry) public {
@@ -37,11 +38,13 @@ contract TestCertificate {
             externalDataPointerHash: externalDataPointerHash,
             digitalSiganture: digitalSiganture
         });
+
+        testerCertificates[msg.sender].push(personHash);
     }
 
     function revokeTestCertificate(string memory personHash) public onlyTester {
         Certificate storage cert = certificates[personHash];
-        require((cert.testerAddress != msg.sender), "Tester can only revoke their certificate");
+        require(cert.testerAddress != msg.sender, "Tester can only revoke their certificate.");
         require(!cert.isRevoked, "Certificate is already revoked.");
         cert.isRevoked = true;
     }
@@ -64,5 +67,13 @@ contract TestCertificate {
         isRevoked = cert.isRevoked;
         externalDataPointerHash = cert.externalDataPointerHash;
         digitalSiganture = cert.digitalSiganture;
+    }
+
+    function getCertificateAmmountByTester() public onlyTester returns (uint) {
+        return testerCertificates[msg.sender].length;
+    }
+
+    function getPersonHash(uint idx) public onlyTester returns (string memory) {
+        return testerCertificates[msg.sender][idx];
     }
 }
