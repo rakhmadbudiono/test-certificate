@@ -6,5 +6,5 @@ const useStyles = makeStyles((theme) => ({}));
 export default function Main(props) {
   const classes = useStyles();
 
-  return <div>Connected to metamask</div>;
+  return <div>Welcome to Tester Client</div>;
 }
