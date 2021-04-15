@@ -18,12 +18,25 @@ async function isTester() {
 
   const contract = await getTesterRegistryContract();
 
+  await window.ethereum.enable();
+
   const accounts = await web3.eth.getAccounts();
+
+  console.log(accounts);
+  console.log(await web3.eth.getCoinbase());
+
   const address = accounts[0];
 
   return contract.isTester(address);
 }
 
+async function register(data) {
+  const contract = await getTesterRegistryContract();
+
+  return contract.register(data.institution_name, data.location, data.contact);
+}
+
 module.exports = {
   isTester,
+  register,
 };

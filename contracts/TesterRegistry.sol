@@ -15,7 +15,12 @@ contract TesterRegistry {
         _;
     }
 
-    function register(address tester) public notTester {
-        isTester[tester] = true;
+    function register(string memory institutionName, string memory location, string memory contact) public {
+        isTester[msg.sender] = true;
+        testers[msg.sender] = Tester({
+            institutionName: institutionName,
+            location: location,
+            contact: contact
+        });
     }
 }
