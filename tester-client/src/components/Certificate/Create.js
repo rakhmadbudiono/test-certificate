@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, TextField, Button, CircularProgress } from "@material-ui/core";
 
-import registryContract from "../libs/tester-registry-contract";
+import registryContract from "../../libs/tester-registry-contract";
 
 const useStyles = makeStyles((theme) => ({
   noMarginPadding: {

@@ -33,7 +33,15 @@ async function isTester() {
 async function register(data) {
   const contract = await getTesterRegistryContract();
 
-  return contract.register(data.institution_name, data.location, data.contact);
+  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
+  const web3 = new Web3(provider);
+
+  const accounts = await web3.eth.getAccounts();
+  const address = accounts[0];
+
+  return contract.register(data.institution_name, data.location, data.contact, {
+    from: address,
+  });
 }
 
 module.exports = {

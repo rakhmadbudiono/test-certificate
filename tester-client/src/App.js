@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Main from "./components/Main";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import Registration from "./components/Registration";
+import Certificate from "./components/Certificate";
+import CreateCertificate from "./components/Certificate/Create";
 
-import Middleware from "./middlewares/handler";
+import middleware from "./middlewares/handler";
 import metamask from "./libs/metamask";
 import web3 from "./libs/web3";
 
@@ -16,7 +20,13 @@ function App() {
 
   return (
     <Switch>
-      <Route path="/" component={Middleware(Main)} />
+      <Route path="/" exact component={middleware(Home)} />
+      <Route path="/registration" component={Registration} />
+      <Route path="/certificates" exact component={middleware(Certificate)} />
+      <Route
+        path="/certificates/create"
+        component={middleware(CreateCertificate)}
+      />
     </Switch>
   );
 }

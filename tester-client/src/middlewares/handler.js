@@ -50,8 +50,6 @@ export default function handler(Component) {
               message="Your address is not registered as tester."
               testerError={true}
             />
-
-            <Registration />
           </>
         );
       }

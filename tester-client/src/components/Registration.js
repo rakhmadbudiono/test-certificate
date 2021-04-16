@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, TextField, Button, CircularProgress } from "@material-ui/core";
+import {
+  Grid,
+  TextField,
+  Button,
+  CircularProgress,
+  Typography,
+} from "@material-ui/core";
+
+import Navbar from "./Navbar";
 
 import registryContract from "../libs/tester-registry-contract";
 
@@ -15,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   input: {
     width: "80%",
     marginTop: theme.spacing(4),
+    marginLeft: "5vw",
   },
   primary: {
     backgroundColor: "#f50057",
@@ -28,6 +37,13 @@ const useStyles = makeStyles((theme) => ({
     height: "3em",
     color: "#ffffff",
   },
+  header: {
+    fontWeight: "bold",
+    textAlign: "center",
+    backgroundColor: "white",
+    margin: "2.5vw",
+  },
+  line: {},
 }));
 
 export default function Registration(props) {
@@ -80,12 +96,17 @@ export default function Registration(props) {
 
   return (
     <div>
+      <Navbar />
       <form className={classes.noMarginPadding} onSubmit={handleSubmitForm}>
+        <Typography variant="h2" className={classes.header}>
+          Registration.
+        </Typography>
+        <hr className={classes.line} />
         <Grid container item xs={12} className={classes.subForm}>
           <Grid item xs={6}>
             <TextField
               className={classes.input}
-              variant="outlined"
+              variant="filled"
               id="form-name"
               label="Insitution Name"
               value={formData && formData.institution_name}
@@ -95,7 +116,7 @@ export default function Registration(props) {
           <Grid item xs={6}>
             <TextField
               className={classes.input}
-              variant="outlined"
+              variant="filled"
               id="form-address"
               label="Address"
               value={formData && formData.location}
@@ -105,7 +126,7 @@ export default function Registration(props) {
           <Grid item xs={6}>
             <TextField
               className={classes.input}
-              variant="outlined"
+              variant="filled"
               id="form-contact"
               label="Contact"
               value={formData && formData.contact}
