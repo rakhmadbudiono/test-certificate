@@ -2,7 +2,6 @@ import React from "react";
 import { CircularProgress } from "@material-ui/core";
 
 import Error from "../components/Error";
-import Registration from "../components/Registration";
 
 import metamask from "../libs/metamask";
 import registryContract from "../libs/tester-registry-contract";
@@ -46,10 +45,7 @@ export default function handler(Component) {
       if (!this.state.isTester) {
         return (
           <>
-            <Error
-              message="Your address is not registered as tester."
-              testerError={true}
-            />
+            <Error message="Your address is not registered as tester." />
           </>
         );
       }

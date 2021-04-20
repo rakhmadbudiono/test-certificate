@@ -80,8 +80,6 @@ export default function Registration(props) {
           loading: false,
         });
       }, 3000);
-
-      // window.location.reload();
     } catch (e) {
       setFormData({ ...formData, error: true });
     }

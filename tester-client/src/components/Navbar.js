@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 
 import Logo from "../assets/logo.png";
+
+import registryContract from "../libs/tester-registry-contract";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,10 +31,25 @@ const useStyles = makeStyles((theme) => ({
   nav_button: {
     margin: "5px",
   },
+  hidden: {
+    display: "none",
+  },
 }));
 
 export default function Navbar() {
   const classes = useStyles();
+
+  const [isTester, setIsTester] = useState(false);
+
+  const fetchIsTester = async () => {
+    const tester = await registryContract.isTester();
+
+    setIsTester(tester);
+  };
+
+  useEffect(() => {
+    fetchIsTester();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -65,7 +82,7 @@ export default function Navbar() {
             <Button
               variant="outlined"
               color="secondary"
-              className={classes.nav_button}
+              className={(classes.nav_button, isTester ? classes.hidden : "")}
             >
               Registration
             </Button>
@@ -74,7 +91,7 @@ export default function Navbar() {
             <Button
               variant="outlined"
               color="secondary"
-              className={classes.nav_button}
+              className={(classes.nav_button, !isTester ? classes.hidden : "")}
             >
               Certificates
             </Button>
@@ -88,7 +105,7 @@ export default function Navbar() {
             <Button
               variant="outlined"
               color="secondary"
-              className={classes.nav_button}
+              className={(classes.nav_button, isTester ? classes.hidden : "")}
             >
               Download Metamask
             </Button>
