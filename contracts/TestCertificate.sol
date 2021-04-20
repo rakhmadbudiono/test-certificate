@@ -7,14 +7,21 @@ contract TestCertificate {
         address testerAddress;
         uint testTakenTimestamp;
         uint certificateExpiryTimestamp;
-        string testKit;
+        string testType;
         string testResult;
         bool isRevoked;
-        string externalDataPointerHash;
+        string encryptedExternalDataPointer;
         string digitalSiganture;
     }
 
+    struct PatientDetail {
+        string patientAddress;
+        string patientGender;
+        uint patientAge;
+    }
+
     mapping (string=>Certificate) certificates;
+    mapping (string=>PatientDetail) patientsDetail;
     mapping (address=>string[]) testerCertificates;
     address public registryContract;
 
@@ -27,53 +34,73 @@ contract TestCertificate {
         _;
     }
 
-    function createTestCertificate(string memory personHash, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testKit, string memory testResult, string memory externalDataPointerHash, string memory digitalSiganture) public onlyTester {
-        certificates[personHash] = Certificate({
+    function createTestCertificate(string memory encryptedPatientId, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSiganture) public onlyTester {
+        certificates[encryptedPatientId] = Certificate({
             testerAddress: msg.sender,
             testTakenTimestamp: testTakenTimestamp,
             certificateExpiryTimestamp: certificateExpiryTimestamp,
-            testKit: testKit,
+            testType: testType,
             testResult: testResult,
             isRevoked: false,
-            externalDataPointerHash: externalDataPointerHash,
+            encryptedExternalDataPointer: encryptedExternalDataPointer,
             digitalSiganture: digitalSiganture
         });
 
-        testerCertificates[msg.sender].push(personHash);
+        patientsDetail[encryptedPatientId] = PatientDetail({
+            patientAddress: patientAddress,
+            patientGender: patientGender,
+            patientAge: patientAge
+        });
+
+        testerCertificates[msg.sender].push(encryptedPatientId);
     }
 
-    function revokeTestCertificate(string memory personHash) public onlyTester {
-        Certificate storage cert = certificates[personHash];
+    function revokeTestCertificate(string memory encryptedPatientId) public onlyTester {
+        Certificate storage cert = certificates[encryptedPatientId];
         require(cert.testerAddress != msg.sender, "Tester can only revoke their certificate.");
         require(!cert.isRevoked, "Certificate is already revoked.");
         cert.isRevoked = true;
     }
 
-    function getCertificate(string memory personHash) public view
+    function getCertificate(string memory encryptedPatientId) public view
     returns (
         uint testTakenTimestamp,
         uint certificateExpiryTimestamp,
-        string memory testKit,
+        string memory testType,
         string memory testResult,
         bool isRevoked,
-        string memory externalDataPointerHash,
+        string memory encryptedExternalDataPointer,
         string memory digitalSiganture
     ) {
-        Certificate storage cert = certificates[personHash];
+        Certificate storage cert = certificates[encryptedPatientId];
+        
         testTakenTimestamp = cert.testTakenTimestamp;
         certificateExpiryTimestamp = cert.certificateExpiryTimestamp;
-        testKit = cert.testKit;
+        testType = cert.testType;
         testResult = cert.testResult;
         isRevoked = cert.isRevoked;
-        externalDataPointerHash = cert.externalDataPointerHash;
+        encryptedExternalDataPointer = cert.encryptedExternalDataPointer;
         digitalSiganture = cert.digitalSiganture;
+    }
+
+    function getPatientDetail(string memory encryptedPatientId) public view
+    returns (
+        string memory patientAddress,
+        string memory patientGender,
+        uint patientAge
+    ) {
+        PatientDetail storage detail = patientsDetail[encryptedPatientId];
+
+        patientAddress = detail.patientAddress;
+        patientGender = detail.patientGender;
+        patientAge = detail.patientAge;
     }
 
     function getCertificateAmmountByTester() public onlyTester returns (uint) {
         return testerCertificates[msg.sender].length;
     }
 
-    function getPersonHash(uint idx) public onlyTester returns (string memory) {
+    function getEncryptedPatientId(uint idx) public onlyTester returns (string memory) {
         return testerCertificates[msg.sender][idx];
     }
 }
