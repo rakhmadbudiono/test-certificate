@@ -13,8 +13,6 @@ async function getTestCertificateContract() {
 }
 
 async function createTestCertificate(data) {
-  console.log(data);
-
   const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
   const web3 = new Web3(provider);
 
@@ -59,27 +57,71 @@ async function revokeTestCertificate(encryptedPatientId) {
 }
 
 async function getCertificate(encryptedPatientId) {
+  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
+  const web3 = new Web3(provider);
+
   const contract = await getTestCertificateContract();
 
-  return contract.getCertificate(encryptedPatientId);
+  const accounts = await web3.eth.getAccounts();
+  const address = accounts[0];
+
+  return contract.getCertificate(encryptedPatientId, {
+    from: address,
+  });
 }
 
-async function getCertificateAmmountByTester(encryptedPatientId) {
+async function getPatientDetail(encryptedPatientId) {
+  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
+  const web3 = new Web3(provider);
+
   const contract = await getTestCertificateContract();
 
-  return contract.getCertificateAmmountByTester();
+  const accounts = await web3.eth.getAccounts();
+  const address = accounts[0];
+
+  return contract.getPatientDetail(encryptedPatientId, {
+    from: address,
+  });
+}
+
+async function getCertificateAmountByTester() {
+  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
+  const web3 = new Web3(provider);
+
+  const contract = await getTestCertificateContract();
+
+  console.log(contract);
+
+  const accounts = await web3.eth.getAccounts();
+  const address = accounts[0];
+
+  console.log(address);
+
+  return contract.getCertificateAmountByTester({
+    from: address,
+    gas: 20000000000,
+  });
 }
 
 async function getEncryptedPatientId(idx) {
+  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
+  const web3 = new Web3(provider);
+
   const contract = await getTestCertificateContract();
 
-  return contract.getEncryptedPatientId(idx);
+  const accounts = await web3.eth.getAccounts();
+  const address = accounts[0];
+
+  return contract.getEncryptedPatientId(idx, {
+    from: address,
+  });
 }
 
 module.exports = {
   createTestCertificate,
   revokeTestCertificate,
   getCertificate,
-  getCertificateAmmountByTester,
+  getCertificateAmountByTester,
   getEncryptedPatientId,
+  getPatientDetail,
 };

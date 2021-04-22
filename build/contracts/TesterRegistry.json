@@ -59,14 +59,14 @@
     "absolutePath": "/home/rakhmad/kuliah/TA/test-certificate/contracts/TesterRegistry.sol",
     "exportedSymbols": {
       "TesterRegistry": [
-        380
+        396
       ]
     },
-    "id": 381,
+    "id": 397,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 323,
+        "id": 339,
         "literals": [
           "solidity",
           "^",
@@ -82,23 +82,23 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 380,
+        "id": 396,
         "linearizedBaseContracts": [
-          380
+          396
         ],
         "name": "TesterRegistry",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "TesterRegistry.Tester",
-            "id": 330,
+            "id": 346,
             "members": [
               {
                 "constant": false,
-                "id": 325,
+                "id": 341,
                 "name": "institutionName",
                 "nodeType": "VariableDeclaration",
-                "scope": 330,
+                "scope": 346,
                 "src": "79:22:2",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -107,7 +107,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 324,
+                  "id": 340,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "79:6:2",
@@ -121,10 +121,10 @@
               },
               {
                 "constant": false,
-                "id": 327,
+                "id": 343,
                 "name": "location",
                 "nodeType": "VariableDeclaration",
-                "scope": 330,
+                "scope": 346,
                 "src": "111:15:2",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -133,7 +133,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 326,
+                  "id": 342,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "111:6:2",
@@ -147,10 +147,10 @@
               },
               {
                 "constant": false,
-                "id": 329,
+                "id": 345,
                 "name": "contact",
                 "nodeType": "VariableDeclaration",
-                "scope": 330,
+                "scope": 346,
                 "src": "136:14:2",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -159,7 +159,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 328,
+                  "id": 344,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "136:6:2",
@@ -174,16 +174,16 @@
             ],
             "name": "Tester",
             "nodeType": "StructDefinition",
-            "scope": 380,
+            "scope": 396,
             "src": "55:103:2",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 334,
+            "id": 350,
             "name": "isTester",
             "nodeType": "VariableDeclaration",
-            "scope": 380,
+            "scope": 396,
             "src": "164:38:2",
             "stateVariable": true,
             "storageLocation": "default",
@@ -192,9 +192,9 @@
               "typeString": "mapping(address => bool)"
             },
             "typeName": {
-              "id": 333,
+              "id": 349,
               "keyType": {
-                "id": 331,
+                "id": 347,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "172:7:2",
@@ -210,7 +210,7 @@
                 "typeString": "mapping(address => bool)"
               },
               "valueType": {
-                "id": 332,
+                "id": 348,
                 "name": "bool",
                 "nodeType": "ElementaryTypeName",
                 "src": "181:4:2",
@@ -225,21 +225,21 @@
           },
           {
             "constant": false,
-            "id": 338,
+            "id": 354,
             "name": "testers",
             "nodeType": "VariableDeclaration",
-            "scope": 380,
+            "scope": 396,
             "src": "208:33:2",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Tester_$330_storage_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Tester_$346_storage_$",
               "typeString": "mapping(address => struct TesterRegistry.Tester)"
             },
             "typeName": {
-              "id": 337,
+              "id": 353,
               "keyType": {
-                "id": 335,
+                "id": 351,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "217:7:2",
@@ -251,18 +251,18 @@
               "nodeType": "Mapping",
               "src": "208:25:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Tester_$330_storage_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Tester_$346_storage_$",
                 "typeString": "mapping(address => struct TesterRegistry.Tester)"
               },
               "valueType": {
                 "contractScope": null,
-                "id": 336,
+                "id": 352,
                 "name": "Tester",
                 "nodeType": "UserDefinedTypeName",
-                "referencedDeclaration": 330,
+                "referencedDeclaration": 346,
                 "src": "226:6:2",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Tester_$330_storage_ptr",
+                  "typeIdentifier": "t_struct$_Tester_$346_storage_ptr",
                   "typeString": "struct TesterRegistry.Tester"
                 }
               }
@@ -272,7 +272,7 @@
           },
           {
             "body": {
-              "id": 350,
+              "id": 366,
               "nodeType": "Block",
               "src": "267:90:2",
               "statements": [
@@ -282,7 +282,7 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 345,
+                        "id": 361,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -295,34 +295,34 @@
                           "argumentTypes": null,
                           "baseExpression": {
                             "argumentTypes": null,
-                            "id": 341,
+                            "id": 357,
                             "name": "isTester",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 334,
+                            "referencedDeclaration": 350,
                             "src": "286:8:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
                               "typeString": "mapping(address => bool)"
                             }
                           },
-                          "id": 344,
+                          "id": 360,
                           "indexExpression": {
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 342,
+                              "id": 358,
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 395,
+                              "referencedDeclaration": 411,
                               "src": "295:3:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
                                 "typeString": "msg"
                               }
                             },
-                            "id": 343,
+                            "id": 359,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -355,7 +355,7 @@
                       {
                         "argumentTypes": null,
                         "hexValue": "4d73672e73656e64657220616c72656164792061207465737465722e",
-                        "id": 346,
+                        "id": 362,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -382,21 +382,21 @@
                           "typeString": "literal_string \"Msg.sender already a tester.\""
                         }
                       ],
-                      "id": 340,
+                      "id": 356,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        398,
-                        399
+                        414,
+                        415
                       ],
-                      "referencedDeclaration": 399,
+                      "referencedDeclaration": 415,
                       "src": "277:7:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 347,
+                    "id": 363,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -410,23 +410,23 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 348,
+                  "id": 364,
                   "nodeType": "ExpressionStatement",
                   "src": "277:62:2"
                 },
                 {
-                  "id": 349,
+                  "id": 365,
                   "nodeType": "PlaceholderStatement",
                   "src": "349:1:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 351,
+            "id": 367,
             "name": "notTester",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 339,
+              "id": 355,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "267:0:2"
@@ -436,14 +436,14 @@
           },
           {
             "body": {
-              "id": 378,
+              "id": 394,
               "nodeType": "Block",
               "src": "466:202:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 365,
+                    "id": 381,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -452,34 +452,34 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 360,
+                        "id": 376,
                         "name": "isTester",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 334,
+                        "referencedDeclaration": 350,
                         "src": "476:8:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_bool_$",
                           "typeString": "mapping(address => bool)"
                         }
                       },
-                      "id": 363,
+                      "id": 379,
                       "indexExpression": {
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 361,
+                          "id": 377,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 395,
+                          "referencedDeclaration": 411,
                           "src": "485:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 362,
+                        "id": 378,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -509,7 +509,7 @@
                     "rightHandSide": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 364,
+                      "id": 380,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -530,14 +530,14 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 366,
+                  "id": 382,
                   "nodeType": "ExpressionStatement",
                   "src": "476:27:2"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 376,
+                    "id": 392,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -546,34 +546,34 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 367,
+                        "id": 383,
                         "name": "testers",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 338,
+                        "referencedDeclaration": 354,
                         "src": "513:7:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Tester_$330_storage_$",
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Tester_$346_storage_$",
                           "typeString": "mapping(address => struct TesterRegistry.Tester storage ref)"
                         }
                       },
-                      "id": 370,
+                      "id": 386,
                       "indexExpression": {
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 368,
+                          "id": 384,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 395,
+                          "referencedDeclaration": 411,
                           "src": "521:3:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 369,
+                        "id": 385,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -594,7 +594,7 @@
                       "nodeType": "IndexAccess",
                       "src": "513:19:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Tester_$330_storage",
+                        "typeIdentifier": "t_struct$_Tester_$346_storage",
                         "typeString": "struct TesterRegistry.Tester storage ref"
                       }
                     },
@@ -605,11 +605,11 @@
                       "arguments": [
                         {
                           "argumentTypes": null,
-                          "id": 372,
+                          "id": 388,
                           "name": "institutionName",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 353,
+                          "referencedDeclaration": 369,
                           "src": "573:15:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -618,11 +618,11 @@
                         },
                         {
                           "argumentTypes": null,
-                          "id": 373,
+                          "id": 389,
                           "name": "location",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 355,
+                          "referencedDeclaration": 371,
                           "src": "612:8:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -631,11 +631,11 @@
                         },
                         {
                           "argumentTypes": null,
-                          "id": 374,
+                          "id": 390,
                           "name": "contact",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 357,
+                          "referencedDeclaration": 373,
                           "src": "643:7:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_string_memory_ptr",
@@ -658,18 +658,18 @@
                             "typeString": "string memory"
                           }
                         ],
-                        "id": 371,
+                        "id": 387,
                         "name": "Tester",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 330,
+                        "referencedDeclaration": 346,
                         "src": "535:6:2",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_Tester_$330_storage_ptr_$",
+                          "typeIdentifier": "t_type$_t_struct$_Tester_$346_storage_ptr_$",
                           "typeString": "type(struct TesterRegistry.Tester storage pointer)"
                         }
                       },
-                      "id": 375,
+                      "id": 391,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -683,39 +683,39 @@
                       "nodeType": "FunctionCall",
                       "src": "535:126:2",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Tester_$330_memory",
+                        "typeIdentifier": "t_struct$_Tester_$346_memory",
                         "typeString": "struct TesterRegistry.Tester memory"
                       }
                     },
                     "src": "513:148:2",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Tester_$330_storage",
+                      "typeIdentifier": "t_struct$_Tester_$346_storage",
                       "typeString": "struct TesterRegistry.Tester storage ref"
                     }
                   },
-                  "id": 377,
+                  "id": 393,
                   "nodeType": "ExpressionStatement",
                   "src": "513:148:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 379,
+            "id": 395,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "register",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 358,
+              "id": 374,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 353,
+                  "id": 369,
                   "name": "institutionName",
                   "nodeType": "VariableDeclaration",
-                  "scope": 379,
+                  "scope": 395,
                   "src": "381:29:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -724,7 +724,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 352,
+                    "id": 368,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "381:6:2",
@@ -738,10 +738,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 355,
+                  "id": 371,
                   "name": "location",
                   "nodeType": "VariableDeclaration",
-                  "scope": 379,
+                  "scope": 395,
                   "src": "412:22:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -750,7 +750,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 354,
+                    "id": 370,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "412:6:2",
@@ -764,10 +764,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 357,
+                  "id": 373,
                   "name": "contact",
                   "nodeType": "VariableDeclaration",
-                  "scope": 379,
+                  "scope": 395,
                   "src": "436:21:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -776,7 +776,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 356,
+                    "id": 372,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "436:6:2",
@@ -792,19 +792,19 @@
               "src": "380:78:2"
             },
             "returnParameters": {
-              "id": 359,
+              "id": 375,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "466:0:2"
             },
-            "scope": 380,
+            "scope": 396,
             "src": "363:305:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 381,
+        "scope": 397,
         "src": "25:645:2"
       }
     ],
@@ -815,7 +815,7 @@
       "absolutePath": "/home/rakhmad/kuliah/TA/test-certificate/contracts/TesterRegistry.sol",
       "exportedSymbols": {
         "TesterRegistry": [
-          380
+          396
         ]
       }
     },
@@ -829,7 +829,7 @@
             ".0"
           ]
         },
-        "id": 323,
+        "id": 339,
         "name": "PragmaDirective",
         "src": "0:23:2"
       },
@@ -845,17 +845,17 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            380
+            396
           ],
           "name": "TesterRegistry",
-          "scope": 381
+          "scope": 397
         },
         "children": [
           {
             "attributes": {
               "canonicalName": "TesterRegistry.Tester",
               "name": "Tester",
-              "scope": 380,
+              "scope": 396,
               "visibility": "public"
             },
             "children": [
@@ -863,7 +863,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "institutionName",
-                  "scope": 330,
+                  "scope": 346,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "string",
@@ -876,12 +876,12 @@
                       "name": "string",
                       "type": "string"
                     },
-                    "id": 324,
+                    "id": 340,
                     "name": "ElementaryTypeName",
                     "src": "79:6:2"
                   }
                 ],
-                "id": 325,
+                "id": 341,
                 "name": "VariableDeclaration",
                 "src": "79:22:2"
               },
@@ -889,7 +889,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "location",
-                  "scope": 330,
+                  "scope": 346,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "string",
@@ -902,12 +902,12 @@
                       "name": "string",
                       "type": "string"
                     },
-                    "id": 326,
+                    "id": 342,
                     "name": "ElementaryTypeName",
                     "src": "111:6:2"
                   }
                 ],
-                "id": 327,
+                "id": 343,
                 "name": "VariableDeclaration",
                 "src": "111:15:2"
               },
@@ -915,7 +915,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "contact",
-                  "scope": 330,
+                  "scope": 346,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "string",
@@ -928,17 +928,17 @@
                       "name": "string",
                       "type": "string"
                     },
-                    "id": 328,
+                    "id": 344,
                     "name": "ElementaryTypeName",
                     "src": "136:6:2"
                   }
                 ],
-                "id": 329,
+                "id": 345,
                 "name": "VariableDeclaration",
                 "src": "136:14:2"
               }
             ],
-            "id": 330,
+            "id": 346,
             "name": "StructDefinition",
             "src": "55:103:2"
           },
@@ -946,7 +946,7 @@
             "attributes": {
               "constant": false,
               "name": "isTester",
-              "scope": 380,
+              "scope": 396,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "mapping(address => bool)",
@@ -964,7 +964,7 @@
                       "name": "address",
                       "type": "address"
                     },
-                    "id": 331,
+                    "id": 347,
                     "name": "ElementaryTypeName",
                     "src": "172:7:2"
                   },
@@ -973,17 +973,17 @@
                       "name": "bool",
                       "type": "bool"
                     },
-                    "id": 332,
+                    "id": 348,
                     "name": "ElementaryTypeName",
                     "src": "181:4:2"
                   }
                 ],
-                "id": 333,
+                "id": 349,
                 "name": "Mapping",
                 "src": "164:22:2"
               }
             ],
-            "id": 334,
+            "id": 350,
             "name": "VariableDeclaration",
             "src": "164:38:2"
           },
@@ -991,7 +991,7 @@
             "attributes": {
               "constant": false,
               "name": "testers",
-              "scope": 380,
+              "scope": 396,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "mapping(address => struct TesterRegistry.Tester)",
@@ -1009,7 +1009,7 @@
                       "name": "address",
                       "type": "address"
                     },
-                    "id": 335,
+                    "id": 351,
                     "name": "ElementaryTypeName",
                     "src": "217:7:2"
                   },
@@ -1017,20 +1017,20 @@
                     "attributes": {
                       "contractScope": null,
                       "name": "Tester",
-                      "referencedDeclaration": 330,
+                      "referencedDeclaration": 346,
                       "type": "struct TesterRegistry.Tester"
                     },
-                    "id": 336,
+                    "id": 352,
                     "name": "UserDefinedTypeName",
                     "src": "226:6:2"
                   }
                 ],
-                "id": 337,
+                "id": 353,
                 "name": "Mapping",
                 "src": "208:25:2"
               }
             ],
-            "id": 338,
+            "id": 354,
             "name": "VariableDeclaration",
             "src": "208:33:2"
           },
@@ -1048,7 +1048,7 @@
                   ]
                 },
                 "children": [],
-                "id": 339,
+                "id": 355,
                 "name": "ParameterList",
                 "src": "267:0:2"
               },
@@ -1084,14 +1084,14 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                398,
-                                399
+                                414,
+                                415
                               ],
-                              "referencedDeclaration": 399,
+                              "referencedDeclaration": 415,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
-                            "id": 340,
+                            "id": 356,
                             "name": "Identifier",
                             "src": "277:7:2"
                           },
@@ -1123,11 +1123,11 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 334,
+                                      "referencedDeclaration": 350,
                                       "type": "mapping(address => bool)",
                                       "value": "isTester"
                                     },
-                                    "id": 341,
+                                    "id": 357,
                                     "name": "Identifier",
                                     "src": "286:8:2"
                                   },
@@ -1149,26 +1149,26 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 395,
+                                          "referencedDeclaration": 411,
                                           "type": "msg",
                                           "value": "msg"
                                         },
-                                        "id": 342,
+                                        "id": 358,
                                         "name": "Identifier",
                                         "src": "295:3:2"
                                       }
                                     ],
-                                    "id": 343,
+                                    "id": 359,
                                     "name": "MemberAccess",
                                     "src": "295:10:2"
                                   }
                                 ],
-                                "id": 344,
+                                "id": 360,
                                 "name": "IndexAccess",
                                 "src": "286:20:2"
                               }
                             ],
-                            "id": 345,
+                            "id": 361,
                             "name": "UnaryOperation",
                             "src": "285:21:2"
                           },
@@ -1185,32 +1185,32 @@
                               "type": "literal_string \"Msg.sender already a tester.\"",
                               "value": "Msg.sender already a tester."
                             },
-                            "id": 346,
+                            "id": 362,
                             "name": "Literal",
                             "src": "308:30:2"
                           }
                         ],
-                        "id": 347,
+                        "id": 363,
                         "name": "FunctionCall",
                         "src": "277:62:2"
                       }
                     ],
-                    "id": 348,
+                    "id": 364,
                     "name": "ExpressionStatement",
                     "src": "277:62:2"
                   },
                   {
-                    "id": 349,
+                    "id": 365,
                     "name": "PlaceholderStatement",
                     "src": "349:1:2"
                   }
                 ],
-                "id": 350,
+                "id": 366,
                 "name": "Block",
                 "src": "267:90:2"
               }
             ],
-            "id": 351,
+            "id": 367,
             "name": "ModifierDefinition",
             "src": "248:109:2"
           },
@@ -1224,7 +1224,7 @@
                 null
               ],
               "name": "register",
-              "scope": 380,
+              "scope": 396,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -1236,7 +1236,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "institutionName",
-                      "scope": 379,
+                      "scope": 395,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -1249,12 +1249,12 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 352,
+                        "id": 368,
                         "name": "ElementaryTypeName",
                         "src": "381:6:2"
                       }
                     ],
-                    "id": 353,
+                    "id": 369,
                     "name": "VariableDeclaration",
                     "src": "381:29:2"
                   },
@@ -1262,7 +1262,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "location",
-                      "scope": 379,
+                      "scope": 395,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -1275,12 +1275,12 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 354,
+                        "id": 370,
                         "name": "ElementaryTypeName",
                         "src": "412:6:2"
                       }
                     ],
-                    "id": 355,
+                    "id": 371,
                     "name": "VariableDeclaration",
                     "src": "412:22:2"
                   },
@@ -1288,7 +1288,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "contact",
-                      "scope": 379,
+                      "scope": 395,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -1301,17 +1301,17 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 356,
+                        "id": 372,
                         "name": "ElementaryTypeName",
                         "src": "436:6:2"
                       }
                     ],
-                    "id": 357,
+                    "id": 373,
                     "name": "VariableDeclaration",
                     "src": "436:21:2"
                   }
                 ],
-                "id": 358,
+                "id": 374,
                 "name": "ParameterList",
                 "src": "380:78:2"
               },
@@ -1322,7 +1322,7 @@
                   ]
                 },
                 "children": [],
-                "id": 359,
+                "id": 375,
                 "name": "ParameterList",
                 "src": "466:0:2"
               },
@@ -1357,11 +1357,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 334,
+                                  "referencedDeclaration": 350,
                                   "type": "mapping(address => bool)",
                                   "value": "isTester"
                                 },
-                                "id": 360,
+                                "id": 376,
                                 "name": "Identifier",
                                 "src": "476:8:2"
                               },
@@ -1383,21 +1383,21 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 395,
+                                      "referencedDeclaration": 411,
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 361,
+                                    "id": 377,
                                     "name": "Identifier",
                                     "src": "485:3:2"
                                   }
                                 ],
-                                "id": 362,
+                                "id": 378,
                                 "name": "MemberAccess",
                                 "src": "485:10:2"
                               }
                             ],
-                            "id": 363,
+                            "id": 379,
                             "name": "IndexAccess",
                             "src": "476:20:2"
                           },
@@ -1414,17 +1414,17 @@
                               "type": "bool",
                               "value": "true"
                             },
-                            "id": 364,
+                            "id": 380,
                             "name": "Literal",
                             "src": "499:4:2"
                           }
                         ],
-                        "id": 365,
+                        "id": 381,
                         "name": "Assignment",
                         "src": "476:27:2"
                       }
                     ],
-                    "id": 366,
+                    "id": 382,
                     "name": "ExpressionStatement",
                     "src": "476:27:2"
                   },
@@ -1457,11 +1457,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 338,
+                                  "referencedDeclaration": 354,
                                   "type": "mapping(address => struct TesterRegistry.Tester storage ref)",
                                   "value": "testers"
                                 },
-                                "id": 367,
+                                "id": 383,
                                 "name": "Identifier",
                                 "src": "513:7:2"
                               },
@@ -1483,21 +1483,21 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 395,
+                                      "referencedDeclaration": 411,
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 368,
+                                    "id": 384,
                                     "name": "Identifier",
                                     "src": "521:3:2"
                                   }
                                 ],
-                                "id": 369,
+                                "id": 385,
                                 "name": "MemberAccess",
                                 "src": "521:10:2"
                               }
                             ],
-                            "id": 370,
+                            "id": 386,
                             "name": "IndexAccess",
                             "src": "513:19:2"
                           },
@@ -1537,11 +1537,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 330,
+                                  "referencedDeclaration": 346,
                                   "type": "type(struct TesterRegistry.Tester storage pointer)",
                                   "value": "Tester"
                                 },
-                                "id": 371,
+                                "id": 387,
                                 "name": "Identifier",
                                 "src": "535:6:2"
                               },
@@ -1551,11 +1551,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 353,
+                                  "referencedDeclaration": 369,
                                   "type": "string memory",
                                   "value": "institutionName"
                                 },
-                                "id": 372,
+                                "id": 388,
                                 "name": "Identifier",
                                 "src": "573:15:2"
                               },
@@ -1565,11 +1565,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 355,
+                                  "referencedDeclaration": 371,
                                   "type": "string memory",
                                   "value": "location"
                                 },
-                                "id": 373,
+                                "id": 389,
                                 "name": "Identifier",
                                 "src": "612:8:2"
                               },
@@ -1579,46 +1579,46 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 357,
+                                  "referencedDeclaration": 373,
                                   "type": "string memory",
                                   "value": "contact"
                                 },
-                                "id": 374,
+                                "id": 390,
                                 "name": "Identifier",
                                 "src": "643:7:2"
                               }
                             ],
-                            "id": 375,
+                            "id": 391,
                             "name": "FunctionCall",
                             "src": "535:126:2"
                           }
                         ],
-                        "id": 376,
+                        "id": 392,
                         "name": "Assignment",
                         "src": "513:148:2"
                       }
                     ],
-                    "id": 377,
+                    "id": 393,
                     "name": "ExpressionStatement",
                     "src": "513:148:2"
                   }
                 ],
-                "id": 378,
+                "id": 394,
                 "name": "Block",
                 "src": "466:202:2"
               }
             ],
-            "id": 379,
+            "id": 395,
             "name": "FunctionDefinition",
             "src": "363:305:2"
           }
         ],
-        "id": 380,
+        "id": 396,
         "name": "ContractDefinition",
         "src": "25:645:2"
       }
     ],
-    "id": 381,
+    "id": 397,
     "name": "SourceUnit",
     "src": "0:670:2"
   },
@@ -1630,12 +1630,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xa578A18b5eE7228A63e486c7cE3532BDd87DbB59",
-      "transactionHash": "0x151180fa64b50e0d55b6f70f1d6a803118d1d1f028a04b20228da14a0f3d0d72"
+      "address": "0x8312581367f3581ffa47a45701f72444027dF2d2",
+      "transactionHash": "0xbf4e58868727f981e8c30d93dda9dbf0e56d81587e3ca45c7aa2fc4c635de14a"
     }
   },
   "schemaVersion": "3.3.4",
-  "updatedAt": "2021-04-19T13:43:01.313Z",
+  "updatedAt": "2021-04-22T12:41:14.250Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

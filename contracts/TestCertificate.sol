@@ -25,6 +25,9 @@ contract TestCertificate {
     mapping (address=>string[]) testerCertificates;
     address public registryContract;
 
+    event CertificateCreated(string encryptedPatientId);
+    event CertificateRevoked(string encryptedPatientId);
+
     constructor (address registry) public {
         registryContract = registry;
     }
@@ -53,6 +56,8 @@ contract TestCertificate {
         });
 
         testerCertificates[msg.sender].push(encryptedPatientId);
+
+        emit CertificateCreated(encryptedPatientId);
     }
 
     function revokeTestCertificate(string memory encryptedPatientId) public onlyTester {
@@ -60,6 +65,8 @@ contract TestCertificate {
         require(cert.testerAddress != msg.sender, "Tester can only revoke their certificate.");
         require(!cert.isRevoked, "Certificate is already revoked.");
         cert.isRevoked = true;
+
+        emit CertificateRevoked(encryptedPatientId);
     }
 
     function getCertificate(string memory encryptedPatientId) public view
@@ -96,11 +103,11 @@ contract TestCertificate {
         patientAge = detail.patientAge;
     }
 
-    function getCertificateAmmountByTester() public onlyTester returns (uint) {
+    function getCertificateAmountByTester() public view onlyTester returns (uint count) {
         return testerCertificates[msg.sender].length;
     }
 
-    function getEncryptedPatientId(uint idx) public onlyTester returns (string memory) {
+    function getEncryptedPatientId(uint idx) public view onlyTester returns (string memory) {
         return testerCertificates[msg.sender][idx];
     }
 }

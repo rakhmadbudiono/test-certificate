@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -47,6 +48,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Registration(props) {
+  const [registered, setRegistered] = useState(false);
+
   const [formData, setFormData] = useState({
     loading: false,
     error: false,
@@ -64,8 +67,10 @@ export default function Registration(props) {
     setFormData({ ...formData, contact: event.target.value });
   };
 
-  const postFormData = () => {
-    return registryContract.register(formData);
+  const postFormData = async () => {
+    await registryContract.register(formData);
+
+    setRegistered(true);
   };
 
   const register = async () => {
@@ -92,65 +97,67 @@ export default function Registration(props) {
 
   const classes = useStyles();
 
-  return (
-    <div>
-      <Navbar />
-      <form className={classes.noMarginPadding} onSubmit={handleSubmitForm}>
-        <Typography variant="h2" className={classes.header}>
-          Registration.
-        </Typography>
-        <hr className={classes.line} />
-        <Grid container item xs={12} className={classes.subForm}>
-          <Grid item xs={6}>
-            <TextField
-              className={classes.input}
-              variant="filled"
-              id="form-name"
-              label="Insitution Name"
-              value={formData && formData.institution_name}
-              onChange={handleNameChange}
-            />
+  if (registered) return <Redirect to="/" />;
+  else
+    return (
+      <div>
+        <Navbar />
+        <form className={classes.noMarginPadding} onSubmit={handleSubmitForm}>
+          <Typography variant="h2" className={classes.header}>
+            Registration.
+          </Typography>
+          <hr className={classes.line} />
+          <Grid container item xs={12} className={classes.subForm}>
+            <Grid item xs={6}>
+              <TextField
+                className={classes.input}
+                variant="filled"
+                id="form-name"
+                label="Insitution Name"
+                value={formData && formData.institution_name}
+                onChange={handleNameChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                className={classes.input}
+                variant="filled"
+                id="form-address"
+                label="Address"
+                value={formData && formData.location}
+                onChange={handleAddressChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                className={classes.input}
+                variant="filled"
+                id="form-contact"
+                label="Contact"
+                value={formData && formData.contact}
+                onChange={handleContactChange}
+              />
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              justify="flex-end"
+              item
+              className={classes.registerContainer}
+            >
+              {formData.loading ? (
+                <CircularProgress />
+              ) : (
+                <Button
+                  type="submit"
+                  className={classes.register + " " + classes.primary}
+                >
+                  Register
+                </Button>
+              )}
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <TextField
-              className={classes.input}
-              variant="filled"
-              id="form-address"
-              label="Address"
-              value={formData && formData.location}
-              onChange={handleAddressChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              className={classes.input}
-              variant="filled"
-              id="form-contact"
-              label="Contact"
-              value={formData && formData.contact}
-              onChange={handleContactChange}
-            />
-          </Grid>
-          <Grid
-            container
-            alignItems="center"
-            justify="flex-end"
-            item
-            className={classes.registerContainer}
-          >
-            {formData.loading ? (
-              <CircularProgress />
-            ) : (
-              <Button
-                type="submit"
-                className={classes.register + " " + classes.primary}
-              >
-                Register
-              </Button>
-            )}
-          </Grid>
-        </Grid>
-      </form>
-    </div>
-  );
+        </form>
+      </div>
+    );
 }

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Registration from "./components/Registration";
 import Certificate from "./components/Certificate";

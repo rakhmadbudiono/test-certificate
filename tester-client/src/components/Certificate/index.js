@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import Navbar from "../Navbar";
+import Card from "./Card";
 
-import registryContract from "../../libs/tester-registry-contract";
+import certificateContract from "../../libs/test-certificate-contract";
 
 const useStyles = makeStyles((theme) => ({
   noMarginPadding: {
@@ -41,52 +42,61 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Certificates(props) {
-  const [formData, setFormData] = useState({
-    loading: false,
-    error: false,
-  });
-
-  const postFormData = () => {
-    return registryContract.register(formData);
-  };
-
-  const register = async () => {
-    try {
-      setFormData({ ...formData, loading: true });
-
-      await postFormData();
-
-      await setTimeout(async function () {
-        setFormData({
-          ...formData,
-          loading: false,
-        });
-      }, 3000);
-
-      // window.location.reload();
-    } catch (e) {
-      setFormData({ ...formData, error: true });
-    }
-  };
-
-  const handleSubmitForm = async (e) => {
-    e.preventDefault();
-    await register();
-  };
+  const [certs, setCerts] = useState([]);
 
   const classes = useStyles();
+
+  const fetchCert = async () => {
+    const certAmount = await certificateContract.getCertificateAmountByTester();
+
+    console.log(certAmount);
+
+    const certificates = [];
+    for (let i = 0; i < certAmount; i++) {
+      const certificate = {};
+      certificate.encrypted_patient_id = await certificateContract.getEncryptedPatientId(
+        i
+      );
+
+      console.log(certificate);
+
+      const cert = await certificateContract.getCertificate(
+        certificate.encrypted_patient_id
+      );
+
+      console.log(cert);
+
+      certificates[i] = certificate;
+    }
+
+    setCerts(certificates);
+  };
+
+  useEffect(() => {
+    fetchCert();
+  }, []);
 
   return (
     <div>
       <Navbar />
-      <form className={classes.noMarginPadding} onSubmit={handleSubmitForm}>
-        <Typography variant="h2" className={classes.header}>
-          Certificates.{" "}
-          <Link to="/certificates/create">Issue Certificate?</Link>
-        </Typography>
-        <hr className={classes.line} />
-        <Grid container item xs={12} className={classes.subForm}></Grid>
-      </form>
+      <Typography variant="h2" className={classes.header}>
+        Certificates. <Link to="/certificates/create">Issue Certificate?</Link>
+      </Typography>
+      <hr className={classes.line} />
+      <Grid container item xs={12} className={classes.subForm}>
+        {certs.map((cert) => (
+          <Card
+            encrypted_patient_id={cert.encrypted_patient_id}
+            test_taken_timestamp={cert.test_taken_timestamp}
+            certificate_expiry_timestamp={cert.certificate_expiry_timestamp}
+            test_type={cert.test_type}
+            test_result={cert.test_result}
+            patient_home_address={cert.patient_home_address}
+            patient_gender={cert.patient_gender}
+            patient_age={cert.patient_age}
+          />
+        ))}
+      </Grid>
     </div>
   );
 }
