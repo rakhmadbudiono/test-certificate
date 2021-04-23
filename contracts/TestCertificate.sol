@@ -4,6 +4,7 @@ import "./TesterRegistry.sol";
 
 contract TestCertificate {
     struct Certificate {
+        string encryptedPatientId;
         address testerAddress;
         uint testTakenTimestamp;
         uint certificateExpiryTimestamp;
@@ -11,7 +12,7 @@ contract TestCertificate {
         string testResult;
         bool isRevoked;
         string encryptedExternalDataPointer;
-        string digitalSiganture;
+        string digitalSignature;
     }
 
     struct PatientDetail {
@@ -20,10 +21,14 @@ contract TestCertificate {
         uint patientAge;
     }
 
-    mapping (string=>Certificate) certificates;
-    mapping (string=>PatientDetail) patientsDetail;
-    mapping (address=>string[]) testerCertificates;
+    Certificate[] certificates;
+    PatientDetail[] patientsDetail;
+    mapping (address=>uint[]) testerCertificates;
     address public registryContract;
+
+    event CertificateCreated(uint indexed certificateId, string indexed encryptedPatientId, address indexed testerAddress, uint testTakenTimestamp, uint certificateExpiryTimestamp, string testType, string testResult, string encryptedExternalDataPointer, string digitalSignature);
+    event CertificateRevoked(uint indexed certificateId);
+    event PatientDetailAdded(uint indexed certificateId, string patientAddress, string patientGender, uint patientAge);
 
     constructor (address registry) public {
         registryContract = registry;
@@ -34,8 +39,11 @@ contract TestCertificate {
         _;
     }
 
-    function createTestCertificate(string memory encryptedPatientId, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSiganture) public onlyTester {
-        certificates[encryptedPatientId] = Certificate({
+    function createTestCertificate(string memory encryptedPatientId, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature) public onlyTester returns (uint) {
+        uint certificateId = certificates.length;
+
+        certificates[certificateId] = Certificate({
+            encryptedPatientId: encryptedPatientId,
             testerAddress: msg.sender,
             testTakenTimestamp: testTakenTimestamp,
             certificateExpiryTimestamp: certificateExpiryTimestamp,
@@ -43,26 +51,35 @@ contract TestCertificate {
             testResult: testResult,
             isRevoked: false,
             encryptedExternalDataPointer: encryptedExternalDataPointer,
-            digitalSiganture: digitalSiganture
+            digitalSignature: digitalSignature
         });
 
-        patientsDetail[encryptedPatientId] = PatientDetail({
+        emit CertificateCreated(certificateId, encryptedPatientId, msg.sender, testTakenTimestamp, certificateExpiryTimestamp, testType, testResult, encryptedExternalDataPointer, digitalSignature);
+
+        patientsDetail[certificateId] = PatientDetail({
             patientAddress: patientAddress,
             patientGender: patientGender,
             patientAge: patientAge
         });
 
-        testerCertificates[msg.sender].push(encryptedPatientId);
+
+        emit PatientDetailAdded(certificateId, patientAddress, patientGender, patientAge);
+
+        testerCertificates[msg.sender].push(certificateId);
+
+        return certificateId;
     }
 
-    function revokeTestCertificate(string memory encryptedPatientId) public onlyTester {
-        Certificate storage cert = certificates[encryptedPatientId];
+    function revokeTestCertificate(uint certificateId) public onlyTester {
+        Certificate storage cert = certificates[certificateId];
         require(cert.testerAddress != msg.sender, "Tester can only revoke their certificate.");
         require(!cert.isRevoked, "Certificate is already revoked.");
         cert.isRevoked = true;
+
+        emit CertificateRevoked(certificateId);
     }
 
-    function getCertificate(string memory encryptedPatientId) public view
+    function getCertificate(uint certificateId) public view
     returns (
         uint testTakenTimestamp,
         uint certificateExpiryTimestamp,
@@ -70,9 +87,9 @@ contract TestCertificate {
         string memory testResult,
         bool isRevoked,
         string memory encryptedExternalDataPointer,
-        string memory digitalSiganture
+        string memory digitalSignature
     ) {
-        Certificate storage cert = certificates[encryptedPatientId];
+        Certificate storage cert = certificates[certificateId];
         
         testTakenTimestamp = cert.testTakenTimestamp;
         certificateExpiryTimestamp = cert.certificateExpiryTimestamp;
@@ -80,27 +97,27 @@ contract TestCertificate {
         testResult = cert.testResult;
         isRevoked = cert.isRevoked;
         encryptedExternalDataPointer = cert.encryptedExternalDataPointer;
-        digitalSiganture = cert.digitalSiganture;
+        digitalSignature = cert.digitalSignature;
     }
 
-    function getPatientDetail(string memory encryptedPatientId) public view
+    function getPatientDetail(uint certificateId) public view
     returns (
         string memory patientAddress,
         string memory patientGender,
         uint patientAge
     ) {
-        PatientDetail storage detail = patientsDetail[encryptedPatientId];
+        PatientDetail storage detail = patientsDetail[certificateId];
 
         patientAddress = detail.patientAddress;
         patientGender = detail.patientGender;
         patientAge = detail.patientAge;
     }
 
-    function getCertificateAmmountByTester() public onlyTester returns (uint) {
+    function getCertificateAmmountByTester() public view onlyTester returns (uint) {
         return testerCertificates[msg.sender].length;
     }
 
-    function getEncryptedPatientId(uint idx) public onlyTester returns (string memory) {
+    function getEncryptedPatientId(uint idx) public view onlyTester returns (uint) {
         return testerCertificates[msg.sender][idx];
     }
 }
