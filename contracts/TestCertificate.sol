@@ -35,6 +35,7 @@ contract TestCertificate {
     mapping (address=>uint[]) testerCertificates;
     address public registryContract;
 
+    event TesterRegistered(address indexed testerAddress, string indexed institutionName, string indexed location, string contact);
     event CertificateCreated(uint indexed certificateId, string indexed encryptedPatientId, address indexed testerAddress, uint testTakenTimestamp, uint certificateExpiryTimestamp, string testType, string testResult, string encryptedExternalDataPointer, string digitalSignature);
     event CertificateRevoked(uint indexed certificateId);
     event PatientDetailAdded(uint indexed certificateId, string patientAddress, string patientGender, uint patientAge);
@@ -56,9 +57,11 @@ contract TestCertificate {
             location: location,
             contact: contact
         });
+
+        emit TesterRegistered(msg.sender, institutionName, location, contact);
     }
 
-    function createTestCertificate(string memory encryptedPatientId, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature) public onlyTester returns (uint) {
+    function createTestCertificate(string memory encryptedPatientId, uint256 testTakenTimestamp, uint256 certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature) public onlyTester returns (uint) {
         uint certificateId = certificates.length;
 
         certificates[certificateId] = Certificate({

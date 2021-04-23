@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
   closeIcon: {
     placeSelf: "flex-end",
   },
+  qrcode: {
+    textAlign: "center",
+  },
 }));
 
 export default function Registration(props) {
@@ -82,6 +85,8 @@ export default function Registration(props) {
   });
 
   const [open, setOpen] = React.useState(false);
+
+  const [certificateId, setCertificateId] = React.useState(null);
 
   const handleClose = () => {
     setOpen(false);
@@ -156,7 +161,9 @@ export default function Registration(props) {
     try {
       setFormData({ ...formData, loading: true });
 
-      await postFormData(data);
+      const id = await postFormData(data);
+      console.log(id);
+      setCertificateId(id);
 
       await setTimeout(async function () {
         setFormData({
@@ -202,7 +209,7 @@ export default function Registration(props) {
 
   const setupQRCode = async () => {
     const qrData = {
-      encrypted_patient_id: formData.encrypted_patient_id,
+      certificate_id: certificateId,
       public_key: REGISTRY_CONTRACT,
     };
     const qr = await QRCode.toDataURL(JSON.stringify(qrData));
@@ -432,7 +439,22 @@ export default function Registration(props) {
           </form>
         </div>
       ) : (
-        <Error message={<img src={qrCode} alt={qrCode} />} />
+        <Error
+          message={
+            <div className={classes.qrcode}>
+              <Typography variant="h5">QR Code</Typography>
+              <hr className={classes.line} />
+              <Typography variant="p">
+                Simpan dan gunakan QR Code ini untuk memberi akses checker
+                terhadap surat tes.
+              </Typography>{" "}
+              <br />
+              <a target="_blank" rel="noopener noreferrer" href={qrCode}>
+                <img src={qrCode} alt={qrCode} />
+              </a>
+            </div>
+          }
+        />
       )}
     </div>
   );

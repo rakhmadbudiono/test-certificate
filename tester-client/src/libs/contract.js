@@ -39,6 +39,8 @@ async function register(data) {
 }
 
 async function createTestCertificate(data) {
+  console.log(data);
+
   const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
   const web3 = new Web3(provider);
 
@@ -123,10 +125,7 @@ async function getCertificateAmountByTester() {
 
   console.log(address);
 
-  return contract.getCertificateAmountByTester({
-    from: address,
-    gas: 20000000000,
-  });
+  return contract.getCertificateAmountByTester();
 }
 
 async function getEncryptedPatientId(idx) {
