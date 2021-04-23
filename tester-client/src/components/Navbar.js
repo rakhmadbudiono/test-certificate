@@ -5,7 +5,7 @@ import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 
 import Logo from "../assets/logo.png";
 
-import registryContract from "../libs/tester-registry-contract";
+import contract from "../libs/contract";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +42,7 @@ export default function Navbar() {
   const [isTester, setIsTester] = useState(false);
 
   const fetchIsTester = async () => {
-    const tester = await registryContract.isTester();
+    const tester = await contract.isTester();
 
     setIsTester(tester);
   };

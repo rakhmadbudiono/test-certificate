@@ -24,7 +24,7 @@ import Error from "../Error";
 import Navbar from "../Navbar";
 
 import { REGISTRY_CONTRACT } from "../../../../config";
-import certificateContract from "../../libs/test-certificate-contract";
+import contract from "../../libs/contract";
 import jwt from "../../libs/jwt";
 import web3 from "../../libs/web3";
 
@@ -149,7 +149,7 @@ export default function Registration(props) {
   };
 
   const postFormData = (data) => {
-    return certificateContract.createTestCertificate(data);
+    return contract.createTestCertificate(data);
   };
 
   const createCertificate = async (data) => {

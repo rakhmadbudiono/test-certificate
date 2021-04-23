@@ -132,7 +132,7 @@ contract TestCertificate {
         patientAge = detail.patientAge;
     }
 
-    function getCertificateAmmountByTester() public view onlyTester returns (uint) {
+    function getCertificateAmountByTester() public view onlyTester returns (uint) {
         return testerCertificates[msg.sender].length;
     }
 

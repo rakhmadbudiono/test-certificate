@@ -4,7 +4,7 @@ import { CircularProgress } from "@material-ui/core";
 import Error from "../components/Error";
 
 import metamask from "../libs/metamask";
-import registryContract from "../libs/tester-registry-contract";
+import contract from "../libs/contract";
 
 export default function handler(Component) {
   class Middleware extends React.Component {
@@ -18,7 +18,7 @@ export default function handler(Component) {
     componentDidMount() {
       const checkTester = async () => {
         this.setState({
-          isTester: await registryContract.isTester(),
+          isTester: await contract.isTester(),
           loading: false,
         });
       };

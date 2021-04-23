@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import Card from "./Card";
 
-import certificateContract from "../../libs/test-certificate-contract";
+import contract from "../../libs/contract";
 
 const useStyles = makeStyles((theme) => ({
   noMarginPadding: {
@@ -47,20 +47,20 @@ export default function Certificates(props) {
   const classes = useStyles();
 
   const fetchCert = async () => {
-    const certAmount = await certificateContract.getCertificateAmountByTester();
+    const certAmount = await contract.getCertificateAmountByTester();
 
     console.log(certAmount);
 
     const certificates = [];
     for (let i = 0; i < certAmount; i++) {
       const certificate = {};
-      certificate.encrypted_patient_id = await certificateContract.getEncryptedPatientId(
+      certificate.encrypted_patient_id = await contract.getEncryptedPatientId(
         i
       );
 
       console.log(certificate);
 
-      const cert = await certificateContract.getCertificate(
+      const cert = await contract.getCertificate(
         certificate.encrypted_patient_id
       );
 

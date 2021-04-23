@@ -11,7 +11,7 @@ import {
 
 import Navbar from "./Navbar";
 
-import registryContract from "../libs/tester-registry-contract";
+import contract from "../libs/contract";
 
 const useStyles = makeStyles((theme) => ({
   noMarginPadding: {
@@ -68,7 +68,7 @@ export default function Registration(props) {
   };
 
   const postFormData = async () => {
-    await registryContract.register(formData);
+    await contract.register(formData);
 
     setRegistered(true);
   };

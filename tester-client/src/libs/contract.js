@@ -12,6 +12,32 @@ async function getTestCertificateContract() {
   return contract.deployed();
 }
 
+async function isTester() {
+  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
+  const web3 = new Web3(provider);
+
+  const contract = await getTestCertificateContract();
+
+  const accounts = await web3.eth.getAccounts();
+  const address = accounts[0];
+
+  return contract.isTester(address);
+}
+
+async function register(data) {
+  const contract = await getTestCertificateContract();
+
+  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
+  const web3 = new Web3(provider);
+
+  const accounts = await web3.eth.getAccounts();
+  const address = accounts[0];
+
+  return contract.register(data.institution_name, data.location, data.contact, {
+    from: address,
+  });
+}
+
 async function createTestCertificate(data) {
   const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
   const web3 = new Web3(provider);
@@ -118,6 +144,8 @@ async function getEncryptedPatientId(idx) {
 }
 
 module.exports = {
+  isTester,
+  register,
   createTestCertificate,
   revokeTestCertificate,
   getCertificate,
