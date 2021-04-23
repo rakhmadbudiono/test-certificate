@@ -1,8 +1,12 @@
 pragma solidity ^0.5.0;
 
-import "./TesterRegistry.sol";
-
 contract TestCertificate {
+    struct Tester {
+        string institutionName;
+        string location;
+        string contact; 
+    }
+
     struct Certificate {
         string encryptedPatientId;
         address testerAddress;
@@ -21,6 +25,11 @@ contract TestCertificate {
         uint patientAge;
     }
 
+    // tester registry
+    mapping(address=>bool) public isTester;
+    mapping (address=>Tester) testers;
+
+    // test certificate
     Certificate[] certificates;
     PatientDetail[] patientsDetail;
     mapping (address=>uint[]) testerCertificates;
@@ -30,13 +39,23 @@ contract TestCertificate {
     event CertificateRevoked(uint indexed certificateId);
     event PatientDetailAdded(uint indexed certificateId, string patientAddress, string patientGender, uint patientAge);
 
-    constructor (address registry) public {
-        registryContract = registry;
+    modifier onlyTester {
+        require(isTester[msg.sender], "Msg.sender must be a tester.");
+        _;
     }
 
-    modifier onlyTester {
-        require(TesterRegistry(registryContract).isTester(msg.sender), "Msg.sender must be a tester.");
+    modifier notTester {
+        require(!isTester[msg.sender], "Msg.sender already a tester.");
         _;
+    }
+
+    function register(string memory institutionName, string memory location, string memory contact) public {
+        isTester[msg.sender] = true;
+        testers[msg.sender] = Tester({
+            institutionName: institutionName,
+            location: location,
+            contact: contact
+        });
     }
 
     function createTestCertificate(string memory encryptedPatientId, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature) public onlyTester returns (uint) {
