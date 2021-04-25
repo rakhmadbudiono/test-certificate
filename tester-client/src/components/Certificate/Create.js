@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import QRCode from "qrcode";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
@@ -23,7 +24,7 @@ import {
 import Error from "../Error";
 import Navbar from "../Navbar";
 
-import { REGISTRY_CONTRACT } from "../../../../config";
+import { REGISTRY_CONTRACT, UPLOAD_API } from "../../../../config";
 import contract from "../../libs/contract";
 import jwt from "../../libs/jwt";
 import web3 from "../../libs/web3";
@@ -82,11 +83,13 @@ export default function Registration(props) {
   const [formData, setFormData] = useState({
     loading: false,
     error: false,
+    test_taken_timestamp: Date.now(),
   });
 
   const [open, setOpen] = React.useState(false);
 
   const [certificateId, setCertificateId] = React.useState(null);
+  const [externalData, setExternalData] = React.useState(null);
 
   const handleClose = () => {
     setOpen(false);
@@ -129,7 +132,7 @@ export default function Registration(props) {
   };
 
   const handleExternalDataChange = (file) => {
-    setFormData({ ...formData, external_data: file });
+    setExternalData(file);
     setFormData({ ...formData, filename: file.name });
   };
 
@@ -176,8 +179,21 @@ export default function Registration(props) {
     }
   };
 
+  const upload = () => {
+    return axios({
+      url: `${UPLOAD_API}`,
+      data: { file: externalData },
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  };
+
   const handleSubmitForm = async (e) => {
     e.preventDefault();
+
+    await upload();
 
     const data = await cleanData(formData);
 
@@ -186,6 +202,8 @@ export default function Registration(props) {
   };
 
   const cleanData = async (data) => {
+    const external_data_url = `${UPLOAD_API}/uploads/${data.filename}`;
+
     const clean = {
       encrypted_patient_id: await jwt.encrypt(data.id, data.PIN),
       test_taken_timestamp: data.test_taken_timestamp,
@@ -193,7 +211,7 @@ export default function Registration(props) {
       test_type: data.test_type,
       test_result: data.test_result,
       encrypted_external_data_pointer: await jwt.encrypt(
-        data.filename,
+        external_data_url,
         data.PIN
       ),
       patient_home_address: data.patient_address,
