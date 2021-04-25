@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 
 import Logo from "../assets/logo.png";
-
-import contract from "../libs/contract";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +64,15 @@ export default function Navbar() {
             variant="subtitle1"
             className={classes.end_item}
           ></Typography>
+          <Link to="/scan" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.nav_button}
+            >
+              Scanner
+            </Button>
+          </Link>
           <a
             target="_blank"
             rel="noopener noreferrer"
