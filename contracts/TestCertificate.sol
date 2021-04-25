@@ -61,6 +61,18 @@ contract TestCertificate {
         emit TesterRegistered(msg.sender, institutionName, location, contact);
     }
 
+    function getTesterDetail(address testerAddress) public view returns (
+        string memory institutionName,
+        string memory location,
+        string memory contact
+    ) {
+        Tester storage detail = testers[testerAddress];
+
+        institutionName = detail.institutionName;
+        location = detail.location;
+        contact = detail.contact;
+    }
+
     function createTestCertificate(string memory encryptedPatientId, uint256 testTakenTimestamp, uint256 certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature) public onlyTester returns (uint) {
         uint certificateId = certificates.length;
 
