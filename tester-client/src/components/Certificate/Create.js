@@ -179,11 +179,11 @@ export default function Registration(props) {
     }
   };
 
-  const upload = () => {
-    return axios({
-      url: `${UPLOAD_API}`,
-      data: { file: externalData },
-      method: "POST",
+  const upload = (data) => {
+    const form = new FormData();
+    form.append("external_data", data);
+
+    return axios.post(`${UPLOAD_API}/`, form, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -193,7 +193,7 @@ export default function Registration(props) {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    await upload();
+    await upload(externalData);
 
     const data = await cleanData(formData);
 
