@@ -187,13 +187,12 @@ export default function Registration(props) {
 
   const cleanData = async (data) => {
     const clean = {
-      encrypted_patient_id: await jwt.encrypt("symmetric", data.id, data.PIN),
+      encrypted_patient_id: await jwt.encrypt(data.id, data.PIN),
       test_taken_timestamp: data.test_taken_timestamp,
       certificate_expiry_timestamp: data.expiry_timestamp,
       test_type: data.test_type,
       test_result: data.test_result,
       encrypted_external_data_pointer: await jwt.encrypt(
-        "symmetric",
         data.filename,
         data.PIN
       ),
@@ -240,6 +239,7 @@ export default function Registration(props) {
                 margin="dense"
                 id="name"
                 label="PIN"
+                type="password"
                 fullWidth
                 value={formData && formData.PIN}
                 onChange={handlePINChange}
