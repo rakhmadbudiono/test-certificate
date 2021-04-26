@@ -24,14 +24,21 @@ async function getPatientDetail(encryptedPatientId) {
   return contract.getPatientDetail(encryptedPatientId);
 }
 
+async function getCertificateDigitalSignature(encryptedPatientId) {
+  const contract = await getTestCertificateContract();
+
+  return contract.getCertificateDigitalSignature(encryptedPatientId);
+}
+
 async function getTesterDetail(testerAddress) {
   const contract = await getTestCertificateContract();
 
-  return contract.getPatientDetail(testerAddress);
+  return contract.getTesterDetail(testerAddress);
 }
 
 module.exports = {
   getCertificate,
   getPatientDetail,
+  getCertificateDigitalSignature,
   getTesterDetail,
 };

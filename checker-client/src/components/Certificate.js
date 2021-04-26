@@ -24,17 +24,21 @@ const useStyles = makeStyles((theme) => ({
   },
   patientSection: {
     marginTop: "5vh",
-    marginRight: "12.5vw",
-    marginLeft: "12.5vw",
+    marginRight: "20vw",
+    marginLeft: "20vw",
   },
   rightSide: {
     float: "right",
   },
   certificateSection: {
     marginTop: "5vh",
-    marginRight: "12.5vw",
-    marginLeft: "12.5vw",
+    marginRight: "20vw",
+    marginLeft: "20vw",
     marginBottom: "5vh",
+  },
+  revoked: {
+    margin: "5vw",
+    textAlign: "center",
   },
 }));
 
@@ -82,7 +86,9 @@ export default function Certificate(props) {
           </Typography>
         </div>
         {props.certificate_is_revoked ? (
-          <Typography variant="h4">Surat Telah dicabut</Typography>
+          <Typography className={classes.revoked} variant="h4">
+            Surat Tes Telah dicabut oleh Pembuat Surat
+          </Typography>
         ) : (
           <div className={classes.certificateSection}>
             <Typography variant="h4">Data Tes</Typography>
@@ -90,14 +96,14 @@ export default function Certificate(props) {
             <Typography variant="h5">
               Tanggal Tes Diambil{" "}
               <div className={classes.rightSide}>
-                {props.certificate_test_taken_timestamp.toString()}
+                {props.certificate_test_taken_timestamp.toDateString()}
               </div>
             </Typography>
             <hr />
             <Typography variant="h5">
               Tanggal Surat Kadaluarsa{" "}
               <div className={classes.rightSide}>
-                {props.certificate_expiry_timestamp.toString()}
+                {props.certificate_expiry_timestamp.toDateString()}
               </div>
             </Typography>
             <hr />
@@ -115,9 +121,9 @@ export default function Certificate(props) {
               </div>
             </Typography>
             <hr />
-            <Typography variant="h5">
-              <a src={props.certificate_external_data_pointer}>Dokumen Surat</a>
-            </Typography>
+            <a target="_blank" href={props.certificate_external_data_pointer}>
+              <Typography variant="h5">Dokumen Surat</Typography>
+            </a>
             <hr />
 
             <Typography variant="h5">
