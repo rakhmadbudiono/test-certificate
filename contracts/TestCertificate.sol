@@ -34,7 +34,6 @@ contract TestCertificate {
     Certificate[] certificates;
     PatientDetail[] patientsDetail;
     mapping (address=>uint[]) testerCertificates;
-    address public registryContract;
 
     event TesterRegistered(address indexed testerAddress, string indexed institutionName, string indexed location, string contact);
     event CertificateCreated(uint indexed certificateId, string indexed encryptedPatientId, address indexed testerAddress, uint testTakenTimestamp, uint certificateExpiryTimestamp, string testType, string testResult, string encryptedExternalDataPointer, string digitalSignature, string additionalInfo);
@@ -74,10 +73,10 @@ contract TestCertificate {
         contact = detail.contact;
     }
 
-    function createTestCertificate(string memory encryptedPatientId, uint256 testTakenTimestamp, uint256 certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature, string memory additionalInfo) public onlyTester returns (uint) {
+    function createTestCertificate(string memory encryptedPatientId, uint256 testTakenTimestamp, uint256 certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature, string memory additionalInfo) public onlyTester returns (uint id) {
         uint certificateId = certificates.length;
 
-        certificates[certificateId] = Certificate({
+        certificates.push(Certificate({
             encryptedPatientId: encryptedPatientId,
             testerAddress: msg.sender,
             testTakenTimestamp: testTakenTimestamp,
@@ -88,16 +87,15 @@ contract TestCertificate {
             encryptedExternalDataPointer: encryptedExternalDataPointer,
             digitalSignature: digitalSignature,
             additionalInfo: additionalInfo
-        });
+        }));
 
         emit CertificateCreated(certificateId, encryptedPatientId, msg.sender, testTakenTimestamp, certificateExpiryTimestamp, testType, testResult, encryptedExternalDataPointer, digitalSignature, additionalInfo);
 
-        patientsDetail[certificateId] = PatientDetail({
+        patientsDetail.push(PatientDetail({
             patientAddress: patientAddress,
             patientGender: patientGender,
             patientAge: patientAge
-        });
-
+        }));
 
         emit PatientDetailAdded(certificateId, patientAddress, patientGender, patientAge);
 
@@ -151,11 +149,11 @@ contract TestCertificate {
         patientAge = detail.patientAge;
     }
 
-    function getCertificateAmountByTester() public view onlyTester returns (uint) {
+    function getCertificateAmountByTester() public view onlyTester returns (uint amount) {
         return testerCertificates[msg.sender].length;
     }
 
-    function getCertificateId(uint idx) public view onlyTester returns (uint) {
+    function getCertificateId(uint idx) public view onlyTester returns (uint certificateId) {
         return testerCertificates[msg.sender][idx];
     }
 }

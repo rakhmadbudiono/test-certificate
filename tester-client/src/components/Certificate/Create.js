@@ -88,7 +88,6 @@ export default function Registration(props) {
 
   const [open, setOpen] = React.useState(false);
 
-  const [certificateId, setCertificateId] = React.useState(null);
   const [externalData, setExternalData] = React.useState(null);
 
   const handleClose = () => {
@@ -164,9 +163,7 @@ export default function Registration(props) {
     try {
       setFormData({ ...formData, loading: true });
 
-      const id = await postFormData(data);
-      console.log(id);
-      setCertificateId(id);
+      await postFormData(data);
 
       await setTimeout(async function () {
         setFormData({
@@ -226,6 +223,8 @@ export default function Registration(props) {
   };
 
   const setupQRCode = async () => {
+    const certificateId = (await contract.getCertificateAmountByTester()) - 1;
+
     const qrData = {
       certificate_id: certificateId,
       public_key: REGISTRY_CONTRACT,
