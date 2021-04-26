@@ -54,15 +54,11 @@ export default function Certificates(props) {
     const certificates = [];
     for (let i = 0; i < certAmount; i++) {
       const certificate = {};
-      certificate.encrypted_patient_id = await contract.getEncryptedPatientId(
-        i
-      );
+      certificate.certificate_id = await contract.getCertificateId(i);
 
       console.log(certificate);
 
-      const cert = await contract.getCertificate(
-        certificate.encrypted_patient_id
-      );
+      const cert = await contract.getCertificate(certificate.certificate_id);
 
       console.log(cert);
 

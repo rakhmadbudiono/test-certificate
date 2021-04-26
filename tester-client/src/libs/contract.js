@@ -62,13 +62,14 @@ async function createTestCertificate(data) {
     data.patient_gender,
     data.patient_age,
     data.digital_signature,
+    data.additional_info,
     {
       from: address,
     }
   );
 }
 
-async function revokeTestCertificate(encryptedPatientId) {
+async function revokeTestCertificate(certificateId) {
   const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
   const web3 = new Web3(provider);
 
@@ -79,12 +80,12 @@ async function revokeTestCertificate(encryptedPatientId) {
   const accounts = await web3.eth.getAccounts();
   const address = accounts[0];
 
-  return contract.revokeTestCertificate(encryptedPatientId, {
+  return contract.revokeTestCertificate(certificateId, {
     from: address,
   });
 }
 
-async function getCertificate(encryptedPatientId) {
+async function getCertificate(certificateId) {
   const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
   const web3 = new Web3(provider);
 
@@ -93,12 +94,12 @@ async function getCertificate(encryptedPatientId) {
   const accounts = await web3.eth.getAccounts();
   const address = accounts[0];
 
-  return contract.getCertificate(encryptedPatientId, {
+  return contract.getCertificate(certificateId, {
     from: address,
   });
 }
 
-async function getPatientDetail(encryptedPatientId) {
+async function getPatientDetail(certificateId) {
   const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
   const web3 = new Web3(provider);
 
@@ -107,7 +108,7 @@ async function getPatientDetail(encryptedPatientId) {
   const accounts = await web3.eth.getAccounts();
   const address = accounts[0];
 
-  return contract.getPatientDetail(encryptedPatientId, {
+  return contract.getPatientDetail(certificateId, {
     from: address,
   });
 }
@@ -128,7 +129,7 @@ async function getCertificateAmountByTester() {
   return contract.getCertificateAmountByTester();
 }
 
-async function getEncryptedPatientId(idx) {
+async function getCertificateId(idx) {
   const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
   const web3 = new Web3(provider);
 
@@ -137,7 +138,7 @@ async function getEncryptedPatientId(idx) {
   const accounts = await web3.eth.getAccounts();
   const address = accounts[0];
 
-  return contract.getEncryptedPatientId(idx, {
+  return contract.getCertificateId(idx, {
     from: address,
   });
 }
@@ -149,6 +150,6 @@ module.exports = {
   revokeTestCertificate,
   getCertificate,
   getCertificateAmountByTester,
-  getEncryptedPatientId,
+  getCertificateId,
   getPatientDetail,
 };

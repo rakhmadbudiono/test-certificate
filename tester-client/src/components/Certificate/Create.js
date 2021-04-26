@@ -217,6 +217,7 @@ export default function Registration(props) {
       patient_home_address: data.patient_address,
       patient_gender: data.patient_gender,
       patient_age: data.patient_age,
+      additional_info: data.additional_info,
     };
 
     clean.digital_signature = await web3.sign(clean);
