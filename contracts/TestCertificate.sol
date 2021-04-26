@@ -73,7 +73,7 @@ contract TestCertificate {
         contact = detail.contact;
     }
 
-    function createTestCertificate(string memory encryptedPatientId, uint256 testTakenTimestamp, uint256 certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature, string memory additionalInfo) public onlyTester returns (uint id) {
+    function createTestCertificate(string memory encryptedPatientId, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature, string memory additionalInfo) public onlyTester returns (uint id) {
         uint certificateId = certificates.length;
 
         certificates.push(Certificate({
@@ -106,8 +106,10 @@ contract TestCertificate {
 
     function revokeTestCertificate(uint certificateId) public onlyTester {
         Certificate storage cert = certificates[certificateId];
-        require(cert.testerAddress != msg.sender, "Tester can only revoke their certificate.");
+        
+        require(cert.testerAddress == msg.sender, "Tester can only revoke their certificate.");
         require(!cert.isRevoked, "Certificate is already revoked.");
+        
         cert.isRevoked = true;
 
         emit CertificateRevoked(certificateId);
@@ -115,24 +117,24 @@ contract TestCertificate {
 
     function getCertificate(uint certificateId) public view
     returns (
+        string memory encryptedPatientId,
         uint testTakenTimestamp,
         uint certificateExpiryTimestamp,
         string memory testType,
         string memory testResult,
         bool isRevoked,
         string memory encryptedExternalDataPointer,
-        string memory digitalSignature,
         string memory additionalInfo
     ) {
         Certificate storage cert = certificates[certificateId];
         
+        encryptedPatientId = cert.encryptedPatientId;
         testTakenTimestamp = cert.testTakenTimestamp;
         certificateExpiryTimestamp = cert.certificateExpiryTimestamp;
         testType = cert.testType;
         testResult = cert.testResult;
         isRevoked = cert.isRevoked;
         encryptedExternalDataPointer = cert.encryptedExternalDataPointer;
-        digitalSignature = cert.digitalSignature;
         additionalInfo = cert.additionalInfo;
     }
 
@@ -147,6 +149,16 @@ contract TestCertificate {
         patientAddress = detail.patientAddress;
         patientGender = detail.patientGender;
         patientAge = detail.patientAge;
+    }
+
+    function getCertificateDigitalSignature(uint certificateId) public view returns (
+        address testerAddress,
+        string memory digitalSignature
+    ) {
+        Certificate storage cert = certificates[certificateId];
+        
+        testerAddress = cert.testerAddress;
+        digitalSignature = cert.digitalSignature;
     }
 
     function getCertificateAmountByTester() public view onlyTester returns (uint amount) {

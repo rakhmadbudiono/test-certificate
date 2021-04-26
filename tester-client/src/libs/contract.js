@@ -86,61 +86,33 @@ async function revokeTestCertificate(certificateId) {
 }
 
 async function getCertificate(certificateId) {
-  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
-  const web3 = new Web3(provider);
-
   const contract = await getTestCertificateContract();
 
-  const accounts = await web3.eth.getAccounts();
-  const address = accounts[0];
-
-  return contract.getCertificate(certificateId, {
-    from: address,
-  });
+  return contract.getCertificate(certificateId);
 }
 
 async function getPatientDetail(certificateId) {
-  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
-  const web3 = new Web3(provider);
-
   const contract = await getTestCertificateContract();
 
-  const accounts = await web3.eth.getAccounts();
-  const address = accounts[0];
+  return contract.getPatientDetail(certificateId);
+}
 
-  return contract.getPatientDetail(certificateId, {
-    from: address,
-  });
+async function getCertificateDigitalSignature() {
+  const contract = await getTestCertificateContract();
+
+  return contract.getCertificateDigitalSignature();
 }
 
 async function getCertificateAmountByTester() {
-  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
-  const web3 = new Web3(provider);
-
   const contract = await getTestCertificateContract();
-
-  console.log(contract);
-
-  const accounts = await web3.eth.getAccounts();
-  const address = accounts[0];
-
-  console.log(address);
 
   return contract.getCertificateAmountByTester();
 }
 
 async function getCertificateId(idx) {
-  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
-  const web3 = new Web3(provider);
-
   const contract = await getTestCertificateContract();
 
-  const accounts = await web3.eth.getAccounts();
-  const address = accounts[0];
-
-  return contract.getCertificateId(idx, {
-    from: address,
-  });
+  return contract.getCertificateId(idx);
 }
 
 module.exports = {
@@ -152,4 +124,5 @@ module.exports = {
   getCertificateAmountByTester,
   getCertificateId,
   getPatientDetail,
+  getCertificateDigitalSignature,
 };

@@ -6,6 +6,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
+import contract from "../../libs/contract";
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -26,42 +28,101 @@ const useStyles = makeStyles({
     height: "3em",
     color: "#ffffff",
     backgroundColor: "#f50057",
+    textAlign: "center",
+  },
+  center: {
+    justifyContent: "center",
+    textAlign: "center",
+  },
+  rightSide: {
+    float: "right",
+    marginLeft: "5px",
+    fontWeight: "bold",
+  },
+  bottom: {
+    marginBottom: "5px",
+    justifyContent: "center",
+  },
+  bold: {
+    fontWeight: "bold",
+    marginBottom: "22px",
   },
 });
 
 export default function CertificateCard(props) {
   const classes = useStyles();
 
+  const revokeCertificate = async () => {
+    await contract.revokeTestCertificate(props.certificate_id);
+
+    window.location.reload();
+  };
+
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography variant="h5" component="h2" className={classes.pos}>
-          ID: {props.encrypted_patient_id}
+        <Typography
+          variant="h5"
+          component="h2"
+          className={(classes.pos, classes.center)}
+        >
+          ID: {props.certificate_id}
         </Typography>
+        <hr />
         <Typography variant="body2" component="p">
-          Tanggal Tes Dilakukan: {props.test_taken_timestamp}
+          ID Pasien Terenkripsi:{" "}
+          <div className={classes.rightSide}>{props.encrypted_patient_id}</div>
         </Typography>
+        <hr />
         <Typography variant="body2" component="p">
-          Tanggal Kadaluarsa Surat Tes: {props.certificate_expiry_timestamp}
+          Tanggal Tes Dilakukan:{" "}
+          <div className={classes.rightSide}>{props.test_taken_timestamp}</div>
         </Typography>
+        <hr />
         <Typography variant="body2" component="p">
-          Tipe Tes: {props.test_type}
+          Tanggal Kadaluarsa Surat Tes:{" "}
+          <div className={classes.rightSide}>
+            {props.certificate_expiry_timestamp}
+          </div>
         </Typography>
+        <hr />
         <Typography variant="body2" component="p">
-          Hasil Tes: {props.test_result}
+          Tipe Tes: <div className={classes.rightSide}>{props.test_type}</div>
         </Typography>
+        <hr />
         <Typography variant="body2" component="p">
-          Alamat Pasien: {props.patient_home_address}
+          Hasil Tes:{" "}
+          <div className={classes.rightSide}>{props.test_result}</div>
         </Typography>
+        <hr />
         <Typography variant="body2" component="p">
-          Jenis Kelamin Pasien: {props.patient_gender}
+          Alamat Pasien:{" "}
+          <div className={classes.rightSide}>{props.patient_home_address}</div>
         </Typography>
+        <hr />
         <Typography variant="body2" component="p">
-          Umur Pasien: {props.patient_age}
+          Jenis Kelamin Pasien:{" "}
+          <div className={classes.rightSide}>{props.patient_gender}</div>
+        </Typography>
+        <hr />
+        <Typography variant="body2" component="p">
+          Umur Pasien:{" "}
+          <div className={classes.rightSide}>{props.patient_age}</div>
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button className={classes.revoke}>Cabut Surat</Button>
+      <CardActions className={(classes.center, classes.bottom)}>
+        <div>
+          {" "}
+          {props.is_revoked ? (
+            <Typography variant="body2" component="h1">
+              <div className={classes.bold}>Surat telah dicabut!</div>
+            </Typography>
+          ) : (
+            <Button className={classes.revoke} onClick={revokeCertificate}>
+              Cabut Surat
+            </Button>
+          )}
+        </div>
       </CardActions>
     </Card>
   );

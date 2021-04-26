@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     margin: "2.5vw",
   },
+  card: {
+    margin: "2.5vw",
+  },
 }));
 
 export default function Certificates(props) {
@@ -46,23 +49,49 @@ export default function Certificates(props) {
 
   const classes = useStyles();
 
+  const hexToDate = (hex) => {
+    const text = hex.toString();
+    const timestamp = parseInt(text);
+    const date = new Date(timestamp);
+
+    return date.toDateString();
+  };
+
+  const shortToken = (token) => {
+    return `${token.substring(0, 5)}...${token.substring(
+      token.length - 5,
+      token.length
+    )}`;
+  };
+
+  const formatCertificate = async (id, cert, detail) => {
+    const certificate = {
+      certificate_id: id.toString(),
+      encrypted_patient_id: shortToken(cert[0]),
+      test_taken_timestamp: hexToDate(cert[1]),
+      certificate_expiry_timestamp: hexToDate(cert[2]),
+      test_type: cert[3],
+      test_result: cert[4],
+      is_revoked: cert[5],
+      patient_home_address: detail[0],
+      patient_gender: detail[1],
+      patient_age: detail[2].toString(),
+    };
+
+    return certificate;
+  };
+
   const fetchCert = async () => {
     const certAmount = await contract.getCertificateAmountByTester();
 
-    console.log(certAmount);
-
     const certificates = [];
     for (let i = 0; i < certAmount; i++) {
-      const certificate = {};
-      certificate.certificate_id = await contract.getCertificateId(i);
+      const id = await contract.getCertificateId(i);
 
-      console.log(certificate);
+      const cert = await contract.getCertificate(id);
+      const detail = await contract.getPatientDetail(id);
 
-      const cert = await contract.getCertificate(certificate.certificate_id);
-
-      console.log(cert);
-
-      certificates[i] = certificate;
+      certificates[certAmount - i] = await formatCertificate(id, cert, detail);
     }
 
     setCerts(certificates);
@@ -81,16 +110,20 @@ export default function Certificates(props) {
       <hr className={classes.line} />
       <Grid container item xs={12} className={classes.subForm}>
         {certs.map((cert) => (
-          <Card
-            encrypted_patient_id={cert.encrypted_patient_id}
-            test_taken_timestamp={cert.test_taken_timestamp}
-            certificate_expiry_timestamp={cert.certificate_expiry_timestamp}
-            test_type={cert.test_type}
-            test_result={cert.test_result}
-            patient_home_address={cert.patient_home_address}
-            patient_gender={cert.patient_gender}
-            patient_age={cert.patient_age}
-          />
+          <div className={classes.card}>
+            <Card
+              certificate_id={cert.certificate_id}
+              encrypted_patient_id={cert.encrypted_patient_id}
+              test_taken_timestamp={cert.test_taken_timestamp}
+              certificate_expiry_timestamp={cert.certificate_expiry_timestamp}
+              test_type={cert.test_type}
+              test_result={cert.test_result}
+              patient_home_address={cert.patient_home_address}
+              patient_gender={cert.patient_gender}
+              patient_age={cert.patient_age}
+              is_revoked={cert.is_revoked}
+            />
+          </div>
         ))}
       </Grid>
     </div>
