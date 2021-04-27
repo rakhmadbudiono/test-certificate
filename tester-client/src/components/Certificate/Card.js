@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "universal-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -49,11 +50,16 @@ const useStyles = makeStyles({
   },
 });
 
+const cookie = new Cookies();
+
 export default function CertificateCard(props) {
   const classes = useStyles();
 
   const revokeCertificate = async () => {
-    await contract.revokeTestCertificate(props.certificate_id);
+    await contract.revokeTestCertificate(
+      props.certificate_id,
+      cookie.get("account")
+    );
 
     window.location.reload();
   };

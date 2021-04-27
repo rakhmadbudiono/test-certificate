@@ -12,44 +12,22 @@ async function getTestCertificateContract() {
   return contract.deployed();
 }
 
-async function isTester() {
-  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
-  const web3 = new Web3(provider);
-
+async function isTester(address) {
   const contract = await getTestCertificateContract();
-
-  const accounts = await web3.eth.getAccounts();
-  const address = accounts[0];
 
   return contract.isTester(address);
 }
 
-async function register(data) {
+async function register(data, address) {
   const contract = await getTestCertificateContract();
-
-  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
-  const web3 = new Web3(provider);
-
-  const accounts = await web3.eth.getAccounts();
-  const address = accounts[0];
 
   return contract.register(data.institution_name, data.location, data.contact, {
     from: address,
   });
 }
 
-async function createTestCertificate(data) {
-  console.log(data);
-
-  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
-  const web3 = new Web3(provider);
-
+async function createTestCertificate(data, address) {
   const contract = await getTestCertificateContract();
-
-  await window.ethereum.enable();
-
-  const accounts = await web3.eth.getAccounts();
-  const address = accounts[0];
 
   return contract.createTestCertificate(
     data.encrypted_patient_id,
@@ -69,16 +47,8 @@ async function createTestCertificate(data) {
   );
 }
 
-async function revokeTestCertificate(certificateId) {
-  const provider = new Web3.providers.HttpProvider(ETH_NETWORK);
-  const web3 = new Web3(provider);
-
+async function revokeTestCertificate(certificateId, address) {
   const contract = await getTestCertificateContract();
-
-  await window.ethereum.enable();
-
-  const accounts = await web3.eth.getAccounts();
-  const address = accounts[0];
 
   return contract.revokeTestCertificate(certificateId, {
     from: address,
@@ -103,16 +73,16 @@ async function getCertificateDigitalSignature() {
   return contract.getCertificateDigitalSignature();
 }
 
-async function getCertificateAmountByTester() {
+async function getCertificateAmountByTester(address) {
   const contract = await getTestCertificateContract();
 
-  return contract.getCertificateAmountByTester();
+  return contract.getCertificateAmountByTester({ from: address });
 }
 
-async function getCertificateId(idx) {
+async function getCertificateId(idx, address) {
   const contract = await getTestCertificateContract();
 
-  return contract.getCertificateId(idx);
+  return contract.getCertificateId(idx, { from: address });
 }
 
 module.exports = {

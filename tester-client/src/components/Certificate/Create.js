@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import QRCode from "qrcode";
+import Cookies from "universal-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -24,7 +25,7 @@ import {
 import Error from "../Error";
 import Navbar from "../Navbar";
 
-import { REGISTRY_CONTRACT, UPLOAD_API } from "../../../../config";
+import { UPLOAD_API } from "../../../../config";
 import contract from "../../libs/contract";
 import jwt from "../../libs/jwt";
 import web3 from "../../libs/web3";
@@ -78,6 +79,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
 }));
+
+const cookie = new Cookies();
 
 export default function Registration(props) {
   const [formData, setFormData] = useState({
@@ -156,7 +159,7 @@ export default function Registration(props) {
   };
 
   const postFormData = (data) => {
-    return contract.createTestCertificate(data);
+    return contract.createTestCertificate(data, cookie.get("account"));
   };
 
   const createCertificate = async (data) => {
@@ -227,7 +230,7 @@ export default function Registration(props) {
 
     const qrData = {
       certificate_id: certificateId,
-      public_key: REGISTRY_CONTRACT,
+      public_key: cookie.get("account"),
     };
     const qr = await QRCode.toDataURL(JSON.stringify(qrData));
 

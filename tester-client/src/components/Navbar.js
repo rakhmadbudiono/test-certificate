@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import Cookies from "universal-cookie";
+
+import ConnectWallet from "./ConnectWallet";
 
 import Logo from "../assets/logo.png";
 
@@ -36,20 +39,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const cookie = new Cookies();
+
 export default function Navbar() {
   const classes = useStyles();
 
   const [isTester, setIsTester] = useState(false);
+  const [account, setAccount] = useState(null);
 
   const fetchIsTester = async () => {
-    const tester = await contract.isTester();
+    if (account) {
+      const tester = await contract.isTester(account);
+      setIsTester(tester);
+    }
+  };
 
-    setIsTester(tester);
+  const fetchAccount = async () => {
+    const acc = cookie.get("account");
+    setAccount(acc);
   };
 
   useEffect(() => {
+    fetchAccount();
     fetchIsTester();
-  }, []);
+  });
 
   return (
     <div className={classes.root}>
@@ -110,6 +123,7 @@ export default function Navbar() {
               Download Metamask
             </Button>
           </a>
+          <ConnectWallet />
         </Toolbar>
       </AppBar>
     </div>
