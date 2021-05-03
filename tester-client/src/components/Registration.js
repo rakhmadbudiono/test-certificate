@@ -71,7 +71,11 @@ export default function Registration(props) {
   };
 
   const postFormData = async () => {
-    await contract.register(formData, cookie.get("account"));
+    const transaction = await contract.register(
+      formData,
+      cookie.get("account")
+    );
+    console.log(transaction);
 
     setRegistered(true);
   };

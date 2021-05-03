@@ -226,7 +226,8 @@ export default function Registration(props) {
   };
 
   const setupQRCode = async () => {
-    const certificateId = (await contract.getCertificateAmountByTester()) - 1;
+    const certificateId =
+      (await contract.getCertificatesAmount(cookie.get("account"))) - 1;
 
     const qrData = {
       certificate_id: certificateId,

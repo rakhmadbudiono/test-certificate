@@ -27,6 +27,8 @@ async function register(data, address) {
 }
 
 async function createTestCertificate(data, address) {
+  console.log(address);
+
   const contract = await getTestCertificateContract();
 
   return contract.createTestCertificate(
@@ -85,6 +87,12 @@ async function getCertificateId(idx, address) {
   return contract.getCertificateId(idx, { from: address });
 }
 
+async function getCertificatesAmount(address) {
+  const contract = await getTestCertificateContract();
+
+  return contract.getCertificatesAmount({ from: address });
+}
+
 module.exports = {
   isTester,
   register,
@@ -95,4 +103,5 @@ module.exports = {
   getCertificateId,
   getPatientDetail,
   getCertificateDigitalSignature,
+  getCertificatesAmount,
 };
