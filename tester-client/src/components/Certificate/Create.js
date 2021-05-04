@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import QRCode from "qrcode";
 import Cookies from "universal-cookie";
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,10 +25,11 @@ import {
 import Error from "../Error";
 import Navbar from "../Navbar";
 
-import { UPLOAD_API } from "../../../../config";
+import { IPFS_API } from "../../../../config";
 import contract from "../../libs/contract";
 import jwt from "../../libs/jwt";
 import web3 from "../../libs/web3";
+import ipfs from "../../libs/ipfs";
 
 const useStyles = makeStyles((theme) => ({
   noMarginPadding: {
@@ -179,30 +180,36 @@ export default function Registration(props) {
     }
   };
 
-  const upload = (data) => {
-    const form = new FormData();
-    form.append("external_data", data);
+  // const upload = (data) => {
+  //   const form = new FormData();
+  //   form.append("external_data", data);
 
-    return axios.post(`${UPLOAD_API}/`, form, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+  //   return axios.post(`${UPLOAD_API}/`, form, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //   });
+  // };
+
+  const uploadIPFS = (externalData) => {
+    return ipfs.upload(externalData);
   };
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    await upload(externalData);
+    // await upload(externalData);
+    const ipfsHash = await uploadIPFS(externalData);
 
-    const data = await cleanData(formData);
+    const data = await cleanData(formData, ipfsHash);
 
     await createCertificate(data);
     await setupQRCode();
   };
 
-  const cleanData = async (data) => {
-    const external_data_url = `${UPLOAD_API}/uploads/${data.filename}`;
+  const cleanData = async (data, ipfsHash) => {
+    // const external_data_url = `${UPLOAD_API}/uploads/${data.filename}`;
+    const external_data_url = `${IPFS_API}/${ipfsHash}`;
 
     const clean = {
       encrypted_patient_id: await jwt.encrypt(data.id, data.PIN),

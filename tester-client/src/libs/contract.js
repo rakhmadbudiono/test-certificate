@@ -27,8 +27,6 @@ async function register(data, address) {
 }
 
 async function createTestCertificate(data, address) {
-  console.log(address);
-
   const contract = await getTestCertificateContract();
 
   return contract.createTestCertificate(
