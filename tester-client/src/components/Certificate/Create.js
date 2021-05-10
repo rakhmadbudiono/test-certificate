@@ -160,7 +160,11 @@ export default function Registration(props) {
   };
 
   const postFormData = (data) => {
-    return contract.createTestCertificate(data, cookie.get("account"));
+    try {
+      return contract.createTestCertificate(data, cookie.get("account"));
+    } catch (e) {
+      throw e;
+    }
   };
 
   const createCertificate = async (data) => {
@@ -177,6 +181,7 @@ export default function Registration(props) {
       }, 3000);
     } catch (e) {
       setFormData({ ...formData, error: true });
+      throw e;
     }
   };
 
@@ -196,15 +201,19 @@ export default function Registration(props) {
   };
 
   const handleSubmitForm = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    // await upload(externalData);
-    const ipfsHash = await uploadIPFS(externalData);
+      // await upload(externalData);
+      const ipfsHash = await uploadIPFS(externalData);
 
-    const data = await cleanData(formData, ipfsHash);
+      const data = await cleanData(formData, ipfsHash);
 
-    await createCertificate(data);
-    await setupQRCode();
+      await createCertificate(data);
+      await setupQRCode();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const cleanData = async (data, ipfsHash) => {

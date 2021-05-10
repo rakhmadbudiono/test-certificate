@@ -54,7 +54,7 @@ export default function Navbar() {
     }
   };
 
-  const fetchAccount = async () => {
+  const fetchAccount = () => {
     const acc = cookie.get("account");
     setAccount(acc);
   };

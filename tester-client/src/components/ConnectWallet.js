@@ -23,6 +23,8 @@ function ConnectWallet() {
   const login = async (e) => {
     e.preventDefault();
     await wallet.connect();
+
+    window.location.reload();
   };
 
   const logout = (e) => {
