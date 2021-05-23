@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import QRCode from "qrcode";
+import Cookies from "universal-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -24,10 +25,11 @@ import {
 import Error from "../Error";
 import Navbar from "../Navbar";
 
-import { REGISTRY_CONTRACT, UPLOAD_API } from "../../../../config";
+import { IPFS_API } from "../../../../config";
 import contract from "../../libs/contract";
 import jwt from "../../libs/jwt";
 import web3 from "../../libs/web3";
+import ipfs from "../../libs/ipfs";
 
 const useStyles = makeStyles((theme) => ({
   noMarginPadding: {
@@ -78,6 +80,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
 }));
+
+const cookie = new Cookies();
 
 export default function Registration(props) {
   const [formData, setFormData] = useState({
@@ -156,7 +160,11 @@ export default function Registration(props) {
   };
 
   const postFormData = (data) => {
-    return contract.createTestCertificate(data);
+    try {
+      return contract.createTestCertificate(data, cookie.get("account"));
+    } catch (e) {
+      throw e;
+    }
   };
 
   const createCertificate = async (data) => {
@@ -173,33 +181,44 @@ export default function Registration(props) {
       }, 3000);
     } catch (e) {
       setFormData({ ...formData, error: true });
+      throw e;
     }
   };
 
-  const upload = (data) => {
-    const form = new FormData();
-    form.append("external_data", data);
+  // const upload = (data) => {
+  //   const form = new FormData();
+  //   form.append("external_data", data);
 
-    return axios.post(`${UPLOAD_API}/`, form, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+  //   return axios.post(`${UPLOAD_API}/`, form, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //   });
+  // };
+
+  const uploadIPFS = (externalData) => {
+    return ipfs.upload(externalData);
   };
 
   const handleSubmitForm = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    await upload(externalData);
+      // await upload(externalData);
+      const ipfsHash = await uploadIPFS(externalData);
 
-    const data = await cleanData(formData);
+      const data = await cleanData(formData, ipfsHash);
 
-    await createCertificate(data);
-    await setupQRCode();
+      await createCertificate(data);
+      await setupQRCode();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const cleanData = async (data) => {
-    const external_data_url = `${UPLOAD_API}/uploads/${data.filename}`;
+  const cleanData = async (data, ipfsHash) => {
+    // const external_data_url = `${UPLOAD_API}/uploads/${data.filename}`;
+    const external_data_url = `${IPFS_API}/${ipfsHash}`;
 
     const clean = {
       encrypted_patient_id: await jwt.encrypt(data.id, data.PIN),
@@ -223,11 +242,12 @@ export default function Registration(props) {
   };
 
   const setupQRCode = async () => {
-    const certificateId = (await contract.getCertificateAmountByTester()) - 1;
+    const certificateId =
+      (await contract.getCertificatesAmount(cookie.get("account"))) - 1;
 
     const qrData = {
       certificate_id: certificateId,
-      public_key: REGISTRY_CONTRACT,
+      public_key: cookie.get("account"),
     };
     const qr = await QRCode.toDataURL(JSON.stringify(qrData));
 

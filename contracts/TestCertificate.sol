@@ -50,7 +50,7 @@ contract TestCertificate {
         _;
     }
 
-    function register(string memory institutionName, string memory location, string memory contact) public {
+    function register(string memory institutionName, string memory location, string memory contact) public notTester {
         isTester[msg.sender] = true;
         testers[msg.sender] = Tester({
             institutionName: institutionName,
@@ -167,5 +167,9 @@ contract TestCertificate {
 
     function getCertificateId(uint idx) public view onlyTester returns (uint certificateId) {
         return testerCertificates[msg.sender][idx];
+    }
+
+    function getCertificatesAmount() public view returns (uint amount) {
+        return certificates.length;
     }
 }

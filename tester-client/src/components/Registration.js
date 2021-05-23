@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from "universal-cookie";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -47,6 +48,8 @@ const useStyles = makeStyles((theme) => ({
   line: {},
 }));
 
+const cookie = new Cookies();
+
 export default function Registration(props) {
   const [registered, setRegistered] = useState(false);
 
@@ -68,9 +71,17 @@ export default function Registration(props) {
   };
 
   const postFormData = async () => {
-    await contract.register(formData);
+    try {
+      const transaction = await contract.register(
+        formData,
+        cookie.get("account")
+      );
+      console.log(transaction);
 
-    setRegistered(true);
+      setRegistered(true);
+    } catch (e) {
+      throw e;
+    }
   };
 
   const register = async () => {
@@ -91,8 +102,12 @@ export default function Registration(props) {
   };
 
   const handleSubmitForm = async (e) => {
-    e.preventDefault();
-    await register();
+    try {
+      e.preventDefault();
+      await register();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const classes = useStyles();

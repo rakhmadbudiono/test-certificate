@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Cookies from "universal-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -44,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const cookie = new Cookies();
+
 export default function Certificates(props) {
   const [certs, setCerts] = useState([]);
 
@@ -82,11 +85,13 @@ export default function Certificates(props) {
   };
 
   const fetchCert = async () => {
-    const certAmount = await contract.getCertificateAmountByTester();
+    const certAmount = await contract.getCertificateAmountByTester(
+      cookie.get("account")
+    );
 
     const certificates = [];
     for (let i = 0; i < certAmount; i++) {
-      const id = await contract.getCertificateId(i);
+      const id = await contract.getCertificateId(i, cookie.get("account"));
 
       const cert = await contract.getCertificate(id);
       const detail = await contract.getPatientDetail(id);

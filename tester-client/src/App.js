@@ -21,11 +21,8 @@ function App() {
     <Switch>
       <Route path="/" exact component={middleware(Home)} />
       <Route path="/registration" component={Registration} />
-      <Route path="/certificates" exact component={middleware(Certificate)} />
-      <Route
-        path="/certificates/create"
-        component={middleware(CreateCertificate)}
-      />
+      <Route path="/certificates" exact component={Certificate} />
+      <Route path="/certificates/create" component={CreateCertificate} />
     </Switch>
   );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import Cookies from "universal-cookie";
 import { CircularProgress } from "@material-ui/core";
 
 import Error from "../components/Error";
@@ -6,23 +7,40 @@ import Error from "../components/Error";
 import metamask from "../libs/metamask";
 import contract from "../libs/contract";
 
+const cookie = new Cookies();
+
 export default function handler(Component) {
   class Middleware extends React.Component {
     constructor(props) {
       super(props);
       const metamaskAvailability = metamask.isAvailable();
 
-      this.state = { metamaskAvailability, isTester: false, loading: true };
+      this.state = {
+        metamaskAvailability,
+        isTester: false,
+        loading: false,
+        account: null,
+      };
     }
 
     componentDidMount() {
-      const checkTester = async () => {
+      const checkTester = async (acc) => {
         this.setState({
-          isTester: await contract.isTester(),
+          isTester: await contract.isTester(acc),
           loading: false,
         });
       };
-      checkTester();
+
+      const account = cookie.get("account");
+
+      if (account) {
+        this.setState({
+          account: account,
+          loading: true,
+        });
+
+        checkTester(account);
+      }
     }
 
     render() {
@@ -42,7 +60,15 @@ export default function handler(Component) {
         );
       }
 
-      if (!this.state.isTester) {
+      if (!this.state.account) {
+        return (
+          <>
+            <Error message="Please connect your metamask wallet" />
+          </>
+        );
+      }
+
+      if (this.state.account && !this.state.isTester) {
         return (
           <>
             <Error message="Your address is not registered as tester." />
