@@ -26,7 +26,11 @@ contract TestCertificate {
         uint patientAge;
     }
 
+    // authority
+    mapping(address=>bool) public isAuthority;
+
     // tester registry
+    mapping(address=>bool) public isTesterApproved;
     mapping(address=>bool) public isTester;
     mapping (address=>Tester) testers;
 
@@ -39,6 +43,20 @@ contract TestCertificate {
     event CertificateCreated(uint indexed certificateId, string indexed encryptedPatientId, address indexed testerAddress, uint testTakenTimestamp, uint certificateExpiryTimestamp, string testType, string testResult, string encryptedExternalDataPointer, string digitalSignature, string additionalInfo);
     event CertificateRevoked(uint indexed certificateId);
     event PatientDetailAdded(uint indexed certificateId, string patientAddress, string patientGender, uint patientAge);
+    event TesterApproved(address indexed testerAddress);
+    event TesterRevoked(address indexed testerAddress);
+    event AuthorityAdded(address indexed authorityAddress);
+
+    constructor (address[] memory authorities) public {
+        for (uint256 i = 0; i < authorities.length; i++) {
+            isAuthority[authorities[i]] = true;
+        }
+    }
+
+    modifier onlyAuthority {
+        require(isAuthority[msg.sender], "Msg.sender must be an authority");
+        _;
+    }
 
     modifier onlyTester {
         require(isTester[msg.sender], "Msg.sender must be a tester.");
@@ -57,6 +75,8 @@ contract TestCertificate {
             location: location,
             contact: contact
         });
+
+        isTesterApproved[msg.sender] = false;
 
         emit TesterRegistered(msg.sender, institutionName, location, contact);
     }
@@ -171,5 +191,26 @@ contract TestCertificate {
 
     function getCertificatesAmount() public view returns (uint amount) {
         return certificates.length;
+    }
+
+    function approveTester(address tester) public onlyAuthority {
+        require(!isTesterApproved[tester], "Tester is already approved.");
+        isTesterApproved[tester] = true;
+
+        emit TesterApproved(tester);
+    }
+
+    function revokeTester(address tester) public onlyAuthority {
+        require(isTesterApproved[tester], "Tester is already revoked.");
+        isTesterApproved[tester] = false;
+
+        emit TesterRevoked(tester);
+    }
+
+    function addAuthority(address authority) public onlyAuthority {
+        require(!isAuthority[authority], "Authority is already added.");
+        isAuthority[authority] = true;
+
+        emit AuthorityAdded(authority);
     }
 }

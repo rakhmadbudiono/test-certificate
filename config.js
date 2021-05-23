@@ -7,4 +7,5 @@ module.exports = {
   IPFS_HOST: "ipfs.infura.io",
   IPFS_PORT: 5001,
   IPFS_API: "https://ipfs.io/ipfs",
+  AUTHORITIES: ["0x3a764D7ed1495f2683f19c87b0575391528B8fAD"],
 };
