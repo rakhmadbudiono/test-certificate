@@ -1,79 +1,216 @@
 pragma solidity ^0.5.0;
 
-import "./TesterRegistry.sol";
-
 contract TestCertificate {
+    struct Tester {
+        string institutionName;
+        string location;
+        string contact; 
+    }
+
     struct Certificate {
+        string encryptedPatientId;
         address testerAddress;
         uint testTakenTimestamp;
         uint certificateExpiryTimestamp;
-        string testKit;
+        string testType;
         string testResult;
         bool isRevoked;
-        string externalDataPointerHash;
-        string digitalSiganture;
+        string encryptedExternalDataPointer;
+        string digitalSignature;
+        string additionalInfo;
     }
 
-    mapping (string=>Certificate) certificates;
-    mapping (address=>string[]) testerCertificates;
-    address public registryContract;
-
-    constructor (address registry) public {
-        registryContract = registry;
+    struct PatientDetail {
+        string patientAddress;
+        string patientGender;
+        uint patientAge;
     }
 
-    modifier onlyTester {
-        require(TesterRegistry(registryContract).isTester(msg.sender), "Msg.sender must be a tester.");
+    // authority
+    mapping(address=>bool) public isAuthority;
+
+    // tester registry
+    mapping(address=>bool) public isTesterApproved;
+    mapping(address=>bool) public isTester;
+    mapping (address=>Tester) testers;
+
+    // test certificate
+    Certificate[] certificates;
+    PatientDetail[] patientsDetail;
+    mapping (address=>uint[]) testerCertificates;
+
+    event TesterRegistered(address indexed testerAddress, string indexed institutionName, string indexed location, string contact);
+    event CertificateCreated(uint indexed certificateId, string indexed encryptedPatientId, address indexed testerAddress, uint testTakenTimestamp, uint certificateExpiryTimestamp, string testType, string testResult, string encryptedExternalDataPointer, string digitalSignature, string additionalInfo);
+    event CertificateRevoked(uint indexed certificateId);
+    event PatientDetailAdded(uint indexed certificateId, string patientAddress, string patientGender, uint patientAge);
+    event TesterApproved(address indexed testerAddress);
+    event TesterRevoked(address indexed testerAddress);
+    event AuthorityAdded(address indexed authorityAddress);
+
+    constructor (address[] memory authorities) public {
+        for (uint256 i = 0; i < authorities.length; i++) {
+            isAuthority[authorities[i]] = true;
+        }
+    }
+
+    modifier onlyAuthority {
+        require(isAuthority[msg.sender], "Msg.sender must be an authority");
         _;
     }
 
-    function createTestCertificate(string memory personHash, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testKit, string memory testResult, string memory externalDataPointerHash, string memory digitalSiganture) public onlyTester {
-        certificates[personHash] = Certificate({
+    modifier onlyTester {
+        require(isTester[msg.sender], "Msg.sender must be a tester.");
+        _;
+    }
+
+    modifier notTester {
+        require(!isTester[msg.sender], "Msg.sender already a tester.");
+        _;
+    }
+
+    function register(string memory institutionName, string memory location, string memory contact) public notTester {
+        isTester[msg.sender] = true;
+        testers[msg.sender] = Tester({
+            institutionName: institutionName,
+            location: location,
+            contact: contact
+        });
+
+        isTesterApproved[msg.sender] = false;
+
+        emit TesterRegistered(msg.sender, institutionName, location, contact);
+    }
+
+    function getTesterDetail(address testerAddress) public view returns (
+        string memory institutionName,
+        string memory location,
+        string memory contact
+    ) {
+        Tester storage detail = testers[testerAddress];
+
+        institutionName = detail.institutionName;
+        location = detail.location;
+        contact = detail.contact;
+    }
+
+    function createTestCertificate(string memory encryptedPatientId, uint testTakenTimestamp, uint certificateExpiryTimestamp, string memory testType, string memory testResult, string memory encryptedExternalDataPointer, string memory patientAddress, string memory patientGender, uint patientAge, string memory digitalSignature, string memory additionalInfo) public onlyTester returns (uint id) {
+        uint certificateId = certificates.length;
+
+        certificates.push(Certificate({
+            encryptedPatientId: encryptedPatientId,
             testerAddress: msg.sender,
             testTakenTimestamp: testTakenTimestamp,
             certificateExpiryTimestamp: certificateExpiryTimestamp,
-            testKit: testKit,
+            testType: testType,
             testResult: testResult,
             isRevoked: false,
-            externalDataPointerHash: externalDataPointerHash,
-            digitalSiganture: digitalSiganture
-        });
+            encryptedExternalDataPointer: encryptedExternalDataPointer,
+            digitalSignature: digitalSignature,
+            additionalInfo: additionalInfo
+        }));
 
-        testerCertificates[msg.sender].push(personHash);
+        emit CertificateCreated(certificateId, encryptedPatientId, msg.sender, testTakenTimestamp, certificateExpiryTimestamp, testType, testResult, encryptedExternalDataPointer, digitalSignature, additionalInfo);
+
+        patientsDetail.push(PatientDetail({
+            patientAddress: patientAddress,
+            patientGender: patientGender,
+            patientAge: patientAge
+        }));
+
+        emit PatientDetailAdded(certificateId, patientAddress, patientGender, patientAge);
+
+        testerCertificates[msg.sender].push(certificateId);
+
+        return certificateId;
     }
 
-    function revokeTestCertificate(string memory personHash) public onlyTester {
-        Certificate storage cert = certificates[personHash];
-        require(cert.testerAddress != msg.sender, "Tester can only revoke their certificate.");
+    function revokeTestCertificate(uint certificateId) public onlyTester {
+        Certificate storage cert = certificates[certificateId];
+        
+        require(cert.testerAddress == msg.sender, "Tester can only revoke their certificate.");
         require(!cert.isRevoked, "Certificate is already revoked.");
+        
         cert.isRevoked = true;
+
+        emit CertificateRevoked(certificateId);
     }
 
-    function getCertificate(string memory personHash) public view
+    function getCertificate(uint certificateId) public view
     returns (
+        string memory encryptedPatientId,
         uint testTakenTimestamp,
         uint certificateExpiryTimestamp,
-        string memory testKit,
+        string memory testType,
         string memory testResult,
         bool isRevoked,
-        string memory externalDataPointerHash,
-        string memory digitalSiganture
+        string memory encryptedExternalDataPointer,
+        string memory additionalInfo
     ) {
-        Certificate storage cert = certificates[personHash];
+        Certificate storage cert = certificates[certificateId];
+        
+        encryptedPatientId = cert.encryptedPatientId;
         testTakenTimestamp = cert.testTakenTimestamp;
         certificateExpiryTimestamp = cert.certificateExpiryTimestamp;
-        testKit = cert.testKit;
+        testType = cert.testType;
         testResult = cert.testResult;
         isRevoked = cert.isRevoked;
-        externalDataPointerHash = cert.externalDataPointerHash;
-        digitalSiganture = cert.digitalSiganture;
+        encryptedExternalDataPointer = cert.encryptedExternalDataPointer;
+        additionalInfo = cert.additionalInfo;
     }
 
-    function getCertificateAmmountByTester() public onlyTester returns (uint) {
+    function getPatientDetail(uint certificateId) public view
+    returns (
+        string memory patientAddress,
+        string memory patientGender,
+        uint patientAge
+    ) {
+        PatientDetail storage detail = patientsDetail[certificateId];
+
+        patientAddress = detail.patientAddress;
+        patientGender = detail.patientGender;
+        patientAge = detail.patientAge;
+    }
+
+    function getCertificateDigitalSignature(uint certificateId) public view returns (
+        address testerAddress,
+        string memory digitalSignature
+    ) {
+        Certificate storage cert = certificates[certificateId];
+        
+        testerAddress = cert.testerAddress;
+        digitalSignature = cert.digitalSignature;
+    }
+
+    function getCertificateAmountByTester() public view onlyTester returns (uint amount) {
         return testerCertificates[msg.sender].length;
     }
 
-    function getPersonHash(uint idx) public onlyTester returns (string memory) {
+    function getCertificateId(uint idx) public view onlyTester returns (uint certificateId) {
         return testerCertificates[msg.sender][idx];
+    }
+
+    function getCertificatesAmount() public view returns (uint amount) {
+        return certificates.length;
+    }
+
+    function approveTester(address tester) public onlyAuthority {
+        require(!isTesterApproved[tester], "Tester is already approved.");
+        isTesterApproved[tester] = true;
+
+        emit TesterApproved(tester);
+    }
+
+    function revokeTester(address tester) public onlyAuthority {
+        require(isTesterApproved[tester], "Tester is already revoked.");
+        isTesterApproved[tester] = false;
+
+        emit TesterRevoked(tester);
+    }
+
+    function addAuthority(address authority) public onlyAuthority {
+        require(!isAuthority[authority], "Authority is already added.");
+        isAuthority[authority] = true;
+
+        emit AuthorityAdded(authority);
     }
 }

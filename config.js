@@ -1,3 +1,11 @@
 module.exports = {
-  REGISTRY_CONTRACT: "0x18D10B86C690341d28d1F899Fc10e20502153b85",
+  ETH_NETWORK: "http://127.0.0.1:8545",
+  PRIVATE_KEY:
+    "0x38a60cce176f31e28395da89570344c8ab33276ad51d41169ac9bc0233107beb",
+  UPLOAD_API: "http://localhost:3002",
+  CHAIN_ID: 1234,
+  IPFS_HOST: "ipfs.infura.io",
+  IPFS_PORT: 5001,
+  IPFS_API: "https://ipfs.io/ipfs",
+  AUTHORITIES: ["0x3a764D7ed1495f2683f19c87b0575391528B8fAD"],
 };
