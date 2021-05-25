@@ -45,12 +45,20 @@ export default function Navbar() {
   const classes = useStyles();
 
   const [isTester, setIsTester] = useState(false);
+  const [isAuthority, setIsAuthority] = useState(false);
   const [account, setAccount] = useState(null);
 
   const fetchIsTester = async () => {
     if (account) {
       const tester = await contract.isTester(account);
       setIsTester(tester);
+    }
+  };
+
+  const fetchIsAuthority = async () => {
+    if (account) {
+      const authority = await contract.isAuthority(account);
+      setIsAuthority(authority);
     }
   };
 
@@ -62,6 +70,7 @@ export default function Navbar() {
   useEffect(() => {
     fetchAccount();
     fetchIsTester();
+    fetchIsAuthority();
   });
 
   return (
@@ -91,13 +100,36 @@ export default function Navbar() {
             variant="subtitle1"
             className={classes.end_item}
           ></Typography>
+          <Link to="/verify" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.nav_button}
+            >
+              Verify Tester
+            </Button>
+          </Link>
           <Link to="/registration" style={{ textDecoration: "none" }}>
             <Button
               variant="outlined"
               color="secondary"
-              className={(classes.nav_button, isTester ? classes.hidden : "")}
+              className={
+                (classes.nav_button,
+                account == null || isTester ? classes.hidden : "")
+              }
             >
               Tester Registration
+            </Button>
+          </Link>
+          <Link to="/approval" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={
+                (classes.nav_button, !isAuthority ? classes.hidden : "")
+              }
+            >
+              Tester Approval
             </Button>
           </Link>
           <a

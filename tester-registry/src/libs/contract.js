@@ -28,6 +28,12 @@ async function register(data, address) {
   });
 }
 
+async function getTesterDetail(testerAddress) {
+  const contract = await getTestCertificateContract();
+
+  return contract.getTesterDetail(testerAddress);
+}
+
 async function isAuthority(address) {
   const contract = await getTestCertificateContract();
 
@@ -40,18 +46,18 @@ async function isTesterApproved(address) {
   return contract.isTesterApproved(address);
 }
 
-async function approveTester(data, address) {
+async function approveTester(testerAddress, address) {
   const contract = await getTestCertificateContract();
 
-  return contract.approveTester(data.tester_address, {
+  return contract.approveTester(testerAddress, {
     from: address,
   });
 }
 
-async function revokeTester(data, address) {
+async function revokeTester(testerAddress, address) {
   const contract = await getTestCertificateContract();
 
-  return contract.approveTester(data.tester_address, {
+  return contract.revokeTester(testerAddress, {
     from: address,
   });
 }
@@ -59,6 +65,7 @@ async function revokeTester(data, address) {
 module.exports = {
   isTester,
   register,
+  getTesterDetail,
   isAuthority,
   isTesterApproved,
   approveTester,
