@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Home from "./components/Home";
-import Registration from "./components/Registration";
 import Certificate from "./components/Certificate";
 import CreateCertificate from "./components/Certificate/Create";
 
@@ -20,7 +19,6 @@ function App() {
   return (
     <Switch>
       <Route path="/" exact component={middleware(Home)} />
-      <Route path="/registration" component={Registration} />
       <Route path="/certificates" exact component={Certificate} />
       <Route path="/certificates/create" component={CreateCertificate} />
     </Switch>

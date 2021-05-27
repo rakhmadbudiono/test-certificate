@@ -74,7 +74,7 @@ export default function Navbar() {
               src={Logo}
               height="35px"
               style={{ marginRight: "20px", cursor: "pointer" }}
-              href="localhost:3000"
+              href="localhost:3001"
             />
           </Link>
           <Typography variant="overline">
@@ -91,15 +91,6 @@ export default function Navbar() {
             variant="subtitle1"
             className={classes.end_item}
           ></Typography>
-          <Link to="/registration" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              className={(classes.nav_button, isTester ? classes.hidden : "")}
-            >
-              Registration
-            </Button>
-          </Link>
           <Link to="/certificates" style={{ textDecoration: "none" }}>
             <Button
               variant="outlined"

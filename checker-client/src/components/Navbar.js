@@ -47,7 +47,7 @@ export default function Navbar() {
               src={Logo}
               height="35px"
               style={{ marginRight: "20px", cursor: "pointer" }}
-              href="localhost:3000"
+              href="localhost:3002"
             />
           </Link>
           <Typography variant="overline">
