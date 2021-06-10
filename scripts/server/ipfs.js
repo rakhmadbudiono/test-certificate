@@ -1,6 +1,6 @@
 const IPFS = require("ipfs-api");
 
-const { IPFS_HOST, IPFS_PORT } = require("../../../config");
+const { IPFS_HOST, IPFS_PORT } = require("../../config");
 
 const ipfs = new IPFS({
   host: IPFS_HOST,
@@ -9,11 +9,7 @@ const ipfs = new IPFS({
 });
 
 async function upload(file) {
-  const arrayBuffer = await file.arrayBuffer();
-
-  const buffer = Buffer(arrayBuffer);
-
-  const trx = await ipfs.files.add(buffer);
+  const trx = await ipfs.files.add(file);
 
   return trx[0].hash;
 }
