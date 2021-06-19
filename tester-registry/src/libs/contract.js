@@ -62,6 +62,14 @@ async function revokeTester(testerAddress, address) {
   });
 }
 
+async function addAuthority(authorityAddress, address) {
+  const contract = await getTestCertificateContract();
+
+  return contract.addAuthority(authorityAddress, {
+    from: address,
+  });
+}
+
 module.exports = {
   isTester,
   register,
@@ -70,4 +78,5 @@ module.exports = {
   isTesterApproved,
   approveTester,
   revokeTester,
+  addAuthority,
 };

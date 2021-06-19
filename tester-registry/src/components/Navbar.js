@@ -132,6 +132,17 @@ export default function Navbar() {
               Tester Approval
             </Button>
           </Link>
+          <Link to="/authority" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={
+                (classes.nav_button, !isAuthority ? classes.hidden : "")
+              }
+            >
+              Add Authority
+            </Button>
+          </Link>
           <a
             target="_blank"
             rel="noopener noreferrer"

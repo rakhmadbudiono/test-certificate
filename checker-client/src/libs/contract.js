@@ -36,9 +36,16 @@ async function getTesterDetail(testerAddress) {
   return contract.getTesterDetail(testerAddress);
 }
 
+async function isTesterApproved(address) {
+  const contract = await getTestCertificateContract();
+
+  return contract.isTesterApproved(address);
+}
+
 module.exports = {
   getCertificate,
   getPatientDetail,
   getCertificateDigitalSignature,
   getTesterDetail,
+  isTesterApproved,
 };

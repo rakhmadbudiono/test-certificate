@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Registration from "./components/Registration";
 import Approval from "./components/Approval";
 import Verify from "./components/Verify";
+import Authority from "./components/Authority";
 
 import middleware from "./middlewares/handler";
 import metamask from "./libs/metamask";
@@ -23,6 +24,7 @@ function App() {
       <Route path="/registration" component={Registration} />
       <Route path="/verify" component={Verify} />
       <Route path="/approval" component={Approval} />
+      <Route path="/authority" component={Authority} />
     </Switch>
   );
 }

@@ -80,7 +80,13 @@ export default function Scanner() {
     return new Date(timestamp);
   };
 
-  const cleanCertificate = async (tester, patient, certificate, signature) => {
+  const cleanCertificate = async (
+    tester,
+    patient,
+    certificate,
+    signature,
+    approved
+  ) => {
     return {
       tester_node_address: qrData.public_key,
       tester_institution_name: tester[0],
@@ -100,6 +106,7 @@ export default function Scanner() {
         signature[1].toString(),
         qrData.public_key
       ),
+      is_tester_approved: approved,
     };
   };
 
@@ -113,6 +120,7 @@ export default function Scanner() {
 
   const fetchCertificate = async () => {
     const tester = await contract.getTesterDetail(qrData.public_key);
+    const approved = await contract.isTesterApproved(qrData.public_key);
     const patient = await contract.getPatientDetail(qrData.certificate_id);
     const certificate = await contract.getCertificate(qrData.certificate_id);
     const signature = await contract.getCertificateDigitalSignature(
@@ -126,10 +134,9 @@ export default function Scanner() {
         tester,
         patient,
         certificate,
-        signature
+        signature,
+        approved
       );
-
-      console.log(data);
 
       const certificateComponent = (
         <Certificate
@@ -152,6 +159,7 @@ export default function Scanner() {
           certificate_external_data_pointer={
             data.certificate_external_data_pointer
           }
+          is_tester_approved={data.is_tester_approved}
         />
       );
       setParsed(certificateComponent);

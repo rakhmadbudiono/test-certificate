@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
+import { VerifiedUser } from "@material-ui/icons";
 
 import Navbar from "./Navbar";
 
@@ -40,6 +41,14 @@ const useStyles = makeStyles((theme) => ({
     margin: "5vw",
     textAlign: "center",
   },
+  approved: {
+    display: "flex",
+    placeContent: "center",
+  },
+  verifiedIcon: {
+    marginRight: "1vw",
+    fontSize: "36px",
+  },
 }));
 
 export default function Certificate(props) {
@@ -59,6 +68,14 @@ export default function Certificate(props) {
             Kontak: {props.tester_contact} | Node Address:{" "}
             {props.tester_node_address}
           </Typography>
+          {props.is_tester_approved ? (
+            <div className={classes.approved}>
+              <VerifiedUser className={classes.verifiedIcon} />
+              <Typography variant="h5">Approved by Authority</Typography>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <hr className={classes.line} />
         <div className={classes.patientSection}>
