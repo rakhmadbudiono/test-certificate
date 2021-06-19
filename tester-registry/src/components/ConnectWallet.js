@@ -43,6 +43,8 @@ function ConnectWallet() {
       cookie.set("account", wallet.account);
     }
 
+    console.log(wallet.account);
+
     setStatus(cookie.get("account") != null);
   });
 
